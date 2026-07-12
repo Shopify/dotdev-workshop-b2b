@@ -108,7 +108,6 @@ pre-book products.
 - Visibility is catalog-driven: a buyer sees the products in their location's catalog. Keep
   pre-book off the Online Store channel (or give DTC its own available-now catalog) so DTC
   shoppers don't see pre-book items.
-- Advanced+ allows three active B2B catalogs; you're using two.
 - The locations share one address on purpose. They're not distinct physical places; they're the
   lever we pull to give the buyer separate catalogs, terms, and orders for the two journeys.
   Reusing the address (and assigning the same buyer to every location) keeps that framing honest

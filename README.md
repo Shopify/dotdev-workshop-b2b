@@ -7,9 +7,18 @@ This repo is a **foundation to build from**, not a turnkey product. It gives you
 patterns, prompts, and a starter app; you extend them for your merchant.
 
 **This README is the workshop.** Read it top to bottom: it frames the problem, lists the
-prerequisites, gets you ready, and then walks the build part by part. The detailed prework
-checklist lives in [`workshop-assets/prerequisites.md`](workshop-assets/prerequisites.md); each
-build step has a matching prompt in [`prompts/`](prompts).
+prerequisites, gets you ready, and then walks the build part by part. Each build step has a matching
+prompt in [`prompts/`](prompts).
+
+> ## ⚠️ Required prework, do it BEFORE the session
+>
+> This workshop has heavier setup than most, and **it cannot be done live in the room.** Several steps
+> take time or have verification/approval delays (creating a **US Plus sandbox** with B2B, setting up
+> **Shopify Payments** in test mode, installing **Shopify Flow**, and running the **store seed script**).
+> If your store isn't set up beforehand, you will not be able to follow along.
+>
+> **Do every step in [`workshop-assets/prerequisites.md`](workshop-assets/prerequisites.md) before you
+> arrive.** In the room we only clone, `pnpm install`, and build. See [Get ready](#get-ready) for the order.
 
 ## The problem
 
@@ -43,28 +52,29 @@ You build **both** on your dev store, which includes Plus features, so you can c
 part. The **non-Plus vs. Plus labels tell you which merchant plan a capability requires**, so
 you can build for a merchant below Plus or on Plus and clearly explain the differences.
 
-## Plans: what B2B gives you, and what Plus adds
+## Plus vs. non-Plus: what actually changes the build
 
-B2B itself is on **all plans** (Basic, Grow, Advanced, Plus): companies, locations, up to 3 B2B
-catalogs, net terms including due-on-fulfillment, vaulted cards, and Shopify Flow with B2B
-objects. See [B2B features by plan](https://help.shopify.com/en/manual/b2b/getting-started/plan-features).
+You build everything on your Plus-enabled dev store. Only three plan differences change how a *merchant*
+would ship this, and those are the ones worth knowing:
 
-The **non-Plus** build uses only core B2B that's available below Plus (companies and locations, up to
-3 catalogs, net terms, vaulted cards, and Flow), so it isn't tied to one specific tier. For simplicity
-it links **both** the Available Now and Pre-book collections in the navigation for **every** location.
-(Making the navigation contextual to each company location's catalog, so a buyer sees only what their
-location can order, is a nice refinement but out of scope here.)
+- **Dynamic payment terms at checkout** (`paymentTermsSet` Function) is **Plus-only**. It's what lets the
+  Plus build flip a mixed cart to due-on-fulfillment automatically. Non-Plus can't, so it pre-separates
+  available-now and pre-book into two locations with fixed terms.
+- **Charging per fulfillment** is **Plus-only**. Plus charges each shipment of one order separately;
+  non-Plus charges once at full fulfillment.
+- **Custom apps that contain Functions require Plus.** So the force-vault (hiding "pay later") is a custom
+  Function on Plus, but on non-Plus it must come from an **App Store (public) app**.
 
-**Plus adds** the pieces the Plus build uses: the `paymentTermsSet` Function operation, unlimited
-and direct-to-company catalogs, deposits/partial payments, **payment requests per fulfillment**
-(per-shipment charging), theme customization by customer type, and checkout UI extensions on the
-payment step. Also, **custom apps that contain Functions require Plus**: on non-Plus the
-force-vault Function must come from an **App Store (public) app**; on Plus a custom app does it.
+Beyond those three, the build is the same on either tier. (For simplicity the workshop links **both** the
+Available Now and Pre-book collections in the navigation for **every** location; making the navigation
+contextual to each company location's catalog is a nice refinement, but out of scope here.)
 
 ## Prerequisites
 
-Full checklist (with the tricky Shopify Payments setup) is in
-[`workshop-assets/prerequisites.md`](workshop-assets/prerequisites.md). In short, before the session:
+**Required and mostly not doable live** (store creation, Payments verification, and the store seed all
+take time). Complete the **full checklist in
+[`workshop-assets/prerequisites.md`](workshop-assets/prerequisites.md) before the session**, it has the
+tricky Shopify Payments setup and the exact steps. The short version:
 
 - A **US Shopify Plus sandbox** development store with **B2B on** (so you get every feature the workshop
   uses, including the Plus-only pieces).

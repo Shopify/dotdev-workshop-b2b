@@ -1,6 +1,10 @@
 # Prerequisites
 
-Come to the workshop with these ready so we spend the time building, not setting up.
+**Everything here is required, and most of it cannot be done during the session.** This workshop has
+heavier setup than most: a US Plus sandbox with B2B, Shopify Payments in test mode, Shopify Flow, and a
+store seed script, and some steps have verification or approval delays (Payments especially). **Finish
+all of it before you arrive.** If your store isn't set up ahead of time, you won't be able to follow
+along; in the room we only clone, install, and build. Give yourself a few days of lead time for Payments.
 
 ## Accounts and tools
 
@@ -78,8 +82,7 @@ Come to the workshop with these ready so we spend the time building, not setting
     and https://shopify.dev/docs/apps/build/devmcp.
 - **Shopify Flow** installed (free, from the App Store: `apps.shopify.com/flow`). The two workflows
   (tag pre-book orders; charge the vaulted card on fulfillment) are built in Flow, so it must be
-  installed. Available on Advanced and Plus; a Plus sandbox has it. App installs aren't scriptable, so
-  this is a manual step.
+  installed. App installs aren't scriptable, so this is a manual step.
 - **Sidekick** is built into the Shopify admin (no setup needed); you'll use it in-session to
   build the two Flows.
 - The **Shopify GraphiQL App** installed on your store, used to activate the Plus payment
@@ -132,7 +135,6 @@ want to see the Admin GraphQL step by step, but the script is the reliable route
 
 - **B2B catalogs, markets, and company locations** that separate Available Now from pre-book:
   - Non-Plus: two locations/markets, each with one catalog (Available Now vs pre-book).
-    Advanced+ allows up to three active B2B catalogs.
   - Plus: one combined location with both catalogs assigned (mixed cart).
   - Every location shares the same shipping/billing address and the same buyer as location admin.
 - **Payment terms:** the pre-book location set to due-on-fulfillment; the Available Now location
@@ -144,15 +146,9 @@ and tag products in-session (see `data-model-seed.md`). Nothing to do here in ad
 
 ## Plan note
 
-B2B is available on **all plans** (Basic, Grow, Advanced, Plus): companies, locations, up to 3
-catalogs, net terms, vaulted cards, and Flow ([B2B features by plan](https://help.shopify.com/en/manual/b2b/getting-started/plan-features)).
-Our "non-Plus" build uses only core B2B that's available below Plus (companies, locations, up to 3
-catalogs, terms, vaulted cards, and Flow), so it isn't tied to one specific tier; for simplicity it
-links both the Available Now and Pre-book collections in the nav for every location (making the nav
-contextual per company location is a nice refinement, but out of scope). On a **Plus sandbox**
-development store you have every feature together, so you build **every** part, including the
-Plus payment Function. The non-Plus vs. Plus labels tell you what a merchant actually gets on
-each plan. The Plus-only differences you build with in mind: the `paymentTermsSet` Function
-operation, checkout UI extensions on the payment step, per-fulfillment charging, unlimited and
-direct-to-company catalogs. Note: B2B also requires **new customer accounts** and **Shopify
-Markets** (enable B2B-with-Markets via feature test drive if prompted).
+You build everything on your Plus sandbox, so you get every feature the workshop uses. The only plan
+differences that change how a *merchant* ships this are the ones we build around: dynamic payment terms
+at checkout (`paymentTermsSet` Function) and per-fulfillment charging are **Plus-only**, and **custom
+apps that contain Functions require Plus** (so a non-Plus merchant does the force-vault with an App Store
+app instead). Everything else in the build is the same on either tier. Note: B2B also requires **new
+customer accounts** and **Shopify Markets** (enable B2B-with-Markets via feature test drive if prompted).
