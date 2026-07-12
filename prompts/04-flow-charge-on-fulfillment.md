@@ -35,6 +35,8 @@ charges the vaulted method for the due amount, with no double charge.
 
 - The `completedAt does not exist` condition is the double-charge guard; it is cleaner than a
   manual "no open authorization" check.
-- The action ignores the store's capture settings, so don't combine it with manual capture.
+- The action charges the vaulted method through the order's payment schedule, independent of the
+  store's payment-capture setting, so either "capture on fulfillment" or "manual capture" is fine
+  (just not "automatically at checkout," which collects up front and defeats the model).
 - This depends on the buyer having a vaulted method, which is what the force-vault piece
   (App Store app on non-Plus, or the Plus Function in step 5) guarantees.

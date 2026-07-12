@@ -39,10 +39,12 @@ Come to the workshop with these ready so we spend the time building, not setting
   - **Optional, ACH Direct Debit** (bank-account vaulting, the flows charge card *or* bank): to offer it,
     turn **off Managed payment methods** and enable **ACH Direct Debit**. Card alone is enough for the
     demo, so this is optional.
-- **Set payment capture to manual** (Settings, Payments, Payment capture, **Manually capture payments
-  for orders**). The default is capture at checkout, which takes payment immediately, defeating the
-  pay-on-fulfillment model. Manual capture leaves the payment authorized so the charge-on-fulfillment
-  Flow captures it when the order ships.
+- **Set payment capture so it is NOT taken at checkout** (Settings, Payments, Payment capture). The
+  default, *automatically at checkout*, takes payment immediately and defeats the pay-on-fulfillment
+  model. **Either of the other two options works for this build: "Automatically capture payment for
+  orders when they're fully fulfilled" or "Manually capture payments for orders."** Both leave the B2B
+  payment authorized/vaulted so the charge-on-fulfillment Flow collects it when the order ships; the
+  charge-vaulted-payment Flow action behaves the same regardless of which of the two you pick.
 - **An email you can receive mail at, for the buyer.** B2B uses **new customer accounts**, so you
   sign in as Maria Cruz from the store's customer login with a one-time code emailed to that
   address. Pass it as `BUYER_EMAIL` when you run setup. You need this to place test orders as a

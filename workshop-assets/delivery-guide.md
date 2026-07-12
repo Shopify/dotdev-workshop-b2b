@@ -37,7 +37,7 @@ the room.
 
 Attendees complete these **before** the session (full steps in `prerequisites.md`): a **US** Plus
 sandbox store with B2B on; **Shopify Payments in test mode** with a vaulted test card; **payment
-capture set to manual**; **clone the repo** (the setup script runs from it); run the pre-work
+capture not set to at-checkout** (manual or on-fulfillment, either works); **clone the repo** (the setup script runs from it); run the pre-work
 **setup script** (products, collections, company/buyer, locations, markets, catalogs, terms, DTC);
 `shopify store auth` with the scope list; install the **GraphiQL app** and **Shopify Flow**; an AI
 assistant with the Dev MCP + AI Toolkit. `pnpm install` is an **in-session** step (like the other
@@ -324,7 +324,7 @@ booth.
 - [ ] Timed: Opening 3 + Framing 5 + Toolkit 4 + Build 25 + Payoff 4 + Non-Plus 7 + Close 2 + Q&A 10 = 60
 - [ ] TA has run the full exercise end to end
 - [ ] Prerequisites specific and frozen; store structure pre-seeded (script), data model created by the app
-- [ ] **Shopify Payments** (test mode) + manual capture + US store called out in the attendee prereq email; **TAs briefed on Payments as the #1 support item**
+- [ ] **Shopify Payments** (test mode) + capture not at-checkout (manual or on-fulfillment) + US store called out in the attendee prereq email; **TAs briefed on Payments as the #1 support item**
 - [ ] Data model declared in `shopify.app.toml` (`$app`); created on `shopify app dev`, not pre-work
 - [ ] Gita aligned on Plus-first order and the pre-order/pre-book terminology split
 - [ ] Repo made public by an org admin (attendees clone it; hosts product images)
