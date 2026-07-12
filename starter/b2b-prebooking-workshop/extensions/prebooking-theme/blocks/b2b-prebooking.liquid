@@ -1,0 +1,25 @@
+{%- comment -%}
+  B2B Pre-booking block. STARTER STUB (you build this in the session).
+
+  TODO (see ../../../../prompts/02-theme-app-block.md):
+  For a logged-in B2B buyer on a pre-book product, read the season from the product's app-owned
+  metafield and render the ordering + delivery windows, and inject visible line item properties
+  (Season, Delivery window) into the add-to-cart form.
+
+  The season is the app-owned metaobject reference on the product (reserved $app namespace):
+    assign season = block.settings.product.metafields["$app"]["b2b-prebooking"].value
+
+  Gate rendering to B2B buyers (customer.b2b?) and the theme editor (request.design_mode), put CSS
+  in assets/b2b-prebooking.css loaded via {{ 'b2b-prebooking.css' | asset_url | stylesheet_tag }},
+  and inject hidden inputs properties[Season] and properties[Delivery window] into the cart form.
+{%- endcomment -%}
+
+{% schema %}
+{
+  "name": "B2B Pre-booking",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true }
+  ]
+}
+{% endschema %}

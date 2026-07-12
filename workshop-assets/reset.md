@@ -1,0 +1,70 @@
+# Reset & redo reference
+
+A troubleshooting companion to `hands-on-guide.md`, not part of the follow-along. Use it to rewind a
+single part (to redo it) or to wipe the in-session build back to the **pre-seeded baseline**.
+
+**Scope.** This undoes only what you build *in the session*: the season values, the theme block, the
+two Flows, and the Plus payment customization. It does **not** touch the pre-seeded store structure
+(products, collections, catalogs, markets, locations, terms) that the setup script created. To rebuild
+that, re-run `setup/setup-store.py` (see `setup/README.md`).
+
+Most steps are in the **Shopify admin**. The one exception is the payment customization, which has no
+Admin UI, so it's a GraphQL mutation in the **Shopify GraphiQL App** (API version 2026-07; you already
+granted it `read_payment_customizations` + `write_payment_customizations` in activation).
+
+---
+
+## Undo a single piece
+
+### Plus payment customization (Part 4)
+No Admin UI. In the GraphiQL App, list customizations and delete yours:
+
+```graphql
+query { paymentCustomizations(first: 20) { edges { node { id title enabled } } } }
+```
+
+```graphql
+mutation { paymentCustomizationDelete(id: "gid://shopify/PaymentCustomization/XXXX") { deletedId userErrors { field message } } }
+```
+
+Then re-activate from `payment-customization-activation.md`. (To only pause it, set `enabled: false`
+with `paymentCustomizationUpdate` instead of deleting.)
+
+### Season values (Part 1)
+- **Un-assign from products:** Products, select the pre-book products, **Edit products**, the
+  **B2B Pre-booking** column, clear the cells (or open a product, **Metafields**, clear the field).
+- **Delete the season entry:** Settings, Custom data, Metaobjects, **B2B Pre-booking**, open the entry,
+  **Delete**. (The *definition* stays, it's app-owned and lives in the toml; you're only deleting the
+  value.)
+
+### Flows (Parts 2 and 3)
+Open the **Shopify Flow** app. Turn off (or delete) **Flow 1** (tag pre-book orders) and **Flow 2**
+(charge the vaulted card on fulfillment). Rebuild from `prompts/03` / `prompts/04`.
+
+### Theme block (Part 1)
+Online Store, Themes, **Customize**, open a pre-book product template, select the **B2B Pre-booking**
+block, **Remove block**. Rebuild from `prompts/02`.
+
+### Test orders
+Orders, open the test order, **Cancel** (void the authorization), then **Archive**. Paid test orders
+can't be hard-deleted; cancel + archive clears them from the working list.
+
+---
+
+## Full reset to the pre-seeded baseline
+
+Run in this order:
+
+1. **Delete the payment customization** (GraphiQL `paymentCustomizationDelete`, above).
+2. **Turn off / delete both Flows** (Flow app).
+3. **Delete the season entry + clear the product metafields** (Admin Custom data + bulk editor, above).
+4. **Remove the theme block** from the product template.
+5. **Cancel + archive** any test orders.
+6. **(Optional, full app slate)** Settings, Apps and sales channels, **uninstall** your workshop app.
+   That removes the theme app extension, the Function, **and the app-owned data-model definitions**.
+   Re-running `shopify app dev` recreates the definitions from the toml, so only do this if you want to
+   rebuild from Part 1.
+
+> App-owned definitions vs values: you can delete metaobject **entries** and clear metafield **values**
+> in Admin, but the **definitions** (the schema) are app-owned and only removed by uninstalling the app
+> or editing the toml, never via Admin or the Admin API.

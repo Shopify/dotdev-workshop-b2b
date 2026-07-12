@@ -1,0 +1,12 @@
+api_version = "2026-07"
+
+[[extensions]]
+name = "B2B Prebooking Payment Terms"
+type = "function"
+handle = "prebooking-payment-terms"
+uid = "cd8164ea-41fc-9b1d-8604-2d1e66bcdfab017b9a5a"
+
+[[extensions.targeting]]
+target = "cart.payment-methods.transform.run"
+input_query = "src/cart_payment_methods_transform_run.graphql"
+export = "cart-payment-methods-transform-run"

@@ -1,0 +1,37 @@
+{
+  "name": "prebooking-payment-terms-fn",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app function build",
+    "typecheck": "tsc --noEmit",
+    "typegen": "shopify app function typegen",
+    "preview": "shopify app function run"
+  },
+  "dependencies": {
+    "@shopify/shopify_function": "^2.0.0"
+  },
+  "codegen": {
+    "schema": "schema.graphql",
+    "documents": "src/*.graphql",
+    "generates": {
+      "./generated/api.ts": {
+        "plugins": [
+          "typescript",
+          "typescript-operations"
+        ]
+      }
+    },
+    "config": {
+      "omitOperationSuffix": true
+    }
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.6",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-operations": "^4.6.1",
+    "graphql": "^16.10.0",
+    "typescript": "^5.0.0"
+  }
+}

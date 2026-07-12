@@ -1,0 +1,64 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+#
+# This starter ships UNLINKED (no client_id): the first `shopify app dev` links the app in YOUR
+# Partner org and writes client_id into this file in place, preserving the data model below. Do NOT
+# run `shopify app dev --reset`: reset generates a fresh minimal config and drops the app-owned
+# data model (the [metaobjects.app.*] / [product.metafields.app.*] blocks).
+
+name = "b2b-prebooking-workshop"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2026-07"
+
+[access.admin]
+direct_api_mode = "online"
+embedded_app_direct_api_access = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+
+# App-owned pre-booking data model (created on `shopify app dev`, versioned with the app).
+# The theme block and the Plus Function read these via the reserved `$app` namespace /
+# `$app:b2b-prebooking` metaobject type. Season entries + per-product values are written in the
+# app's GraphiQL (press `g` in `shopify app dev`) so `$app` resolves to this app.
+[metaobjects.app.b2b-prebooking]
+name = "B2B Pre-booking"
+display_name_field = "season_name"
+access.storefront = "public_read"
+access.admin = "merchant_read_write"
+
+[metaobjects.app.b2b-prebooking.fields.season_name]
+name = "Season name"
+type = "single_line_text_field"
+required = true
+
+[metaobjects.app.b2b-prebooking.fields.order_start_date]
+name = "Order start date"
+type = "date"
+
+[metaobjects.app.b2b-prebooking.fields.order_end_date]
+name = "Order end date"
+type = "date"
+
+[metaobjects.app.b2b-prebooking.fields.delivery_start_date]
+name = "Delivery start date"
+type = "date"
+
+[metaobjects.app.b2b-prebooking.fields.delivery_end_date]
+name = "Delivery end date"
+type = "date"
+
+[product.metafields.app.b2b-prebooking]
+name = "B2B Pre-booking"
+type = "metaobject_reference<$app:b2b-prebooking>"
+access.storefront = "public_read"
+access.admin = "merchant_read_write"

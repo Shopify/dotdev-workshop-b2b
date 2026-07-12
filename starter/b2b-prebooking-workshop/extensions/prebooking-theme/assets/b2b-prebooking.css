@@ -1,0 +1,3 @@
+/* B2B Pre-booking block styles. STARTER STUB.
+   TODO (prompt 02): style the pre-book windows panel (badge + ordering/delivery windows).
+   Loaded from the block via {{ 'b2b-prebooking.css' | asset_url | stylesheet_tag }}. */
