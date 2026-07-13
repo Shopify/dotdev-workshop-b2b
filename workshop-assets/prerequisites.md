@@ -18,10 +18,10 @@ along; in the room we only clone, install, and build. Give yourself a few days o
     consistent: USD pricing (the setup script's price lists are USD), Net 30 / due-on-fulfillment
     terms, the US business address, and the US SSN used in Shopify Payments onboarding. A non-US
     store would change the currency and the Payments identity fields and won't match the scripts.
-- **B2B on** (Plus sandbox stores include it; just confirm in **Settings, B2B**, and enable it if
-  it isn't). You do **not** need to create the company, buyer, locations, or products by hand: the
-  setup step (`../prompts/00-store-setup.md` or the fallback script) creates the products, the
-  company **Urban Style**, the buyer **Maria Cruz**, and all three locations for you.
+  - **B2B is on automatically** on a Plus sandbox, so this is just a **verify**, not a setup step:
+    open **Settings, B2B** and confirm it's enabled (enable it in the unlikely case it isn't). You do
+    **not** create the company, buyer, locations, or products by hand, the setup step below does that
+    for you.
 - **Set up Shopify Payments in test mode.** In Settings, Payments, **Activate Shopify Payments** (if
   another provider like a test gateway is already active, deactivate it first), then Manage, Test mode,
   **Enable test mode**. Use test cards like `4242 4242 4242 4242`. Without a card gateway, checkout shows
