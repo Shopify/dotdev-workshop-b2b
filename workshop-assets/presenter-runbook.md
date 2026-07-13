@@ -5,13 +5,18 @@ narrative + clock; **this is the do-this-next card you keep beside you while bui
 step lists the exact command/tab, the prompt to paste (linked), what to verify, and the one gotcha.
 Built for the **Monday dry run**, run it start to finish once and time it.
 
-Attendee-facing source of truth is the repo [`README.md`](../README.md) ("How the workshop runs") and
-[`prompts/`](../prompts). Same content, just finer-grained for the stage. Parts map 1:1 to the prompt
-files (Part 1 = app setup `01` + season seed; Part 2 = `02` theme block; Part 3 = `03` Plus Function;
-Part 4 = `04` Flow tag; Part 5 = `05` Flow charge). **The Function (Part 3) is built before the Flows
-on purpose:** on Combined, only the Function flips terms to due-on-fulfillment, so if you build the
-Flows first your test orders stay Net 30 and Flow charge looks broken. Build the Function first and
-every later test order already carries the right terms.
+Attendee-facing source of truth **in the room** is [`SESSION.md`](../SESSION.md) (one follow-along
+doc with every paste prompt and teach-aloud callout). Overview + prework: [`README.md`](../README.md).
+This runbook is the presenter's do-this-next card. Parts: 1 = app setup `01` + season seed; 2 = `02`
+theme block; 3 = `03` Plus Function; **4 = Flows** (`04` tag + `05` charge as sub-steps). **Talk track
+after the data model:** theme block so the buyer sees pre-book context; payment Function so checkout
+has the right terms; then Flows so the merchant can manage these orders and payments. **The Function
+(Part 3) is built before the Flows on purpose:** on Combined, only the Function flips terms to
+due-on-fulfillment, so if you build the Flows first your test orders stay Net 30 and Flow charge looks
+broken. Build the Function first and every later test order already carries the right terms.
+
+**Teaching rule:** while AI/Sidekick builds, walk the callouts in `SESSION.md` / the prompt files. Do
+**not** open stubs, TOML, or source files on the projector; the callouts already quote what to say.
 
 ---
 
@@ -107,8 +112,9 @@ pnpm install
 pnpm run dev
 ```
 - On first `dev`: pick org -> pick your dev store -> **approve the browser install** (one click; the
-  app's only scope is payment customizations, used in Part 3). Enter the **storefront password** and the
-  **sudo/mkcert** password if asked.
+  app's only scope is payment customizations, used in Part 3). Enter the **storefront password** if asked.
+  On first `--use-localhost`, when mkcert prompts **"Yes, use mkcert to generate it"**, select Yes, then
+  enter the **sudo/Mac login** password.
 - **Say (frame the browser step):** "Installing any app with scopes goes through the standard consent
   screen, that's a one-click browser step, not an error. There's no terminal-only install." Click Install,
   move on.
@@ -136,7 +142,7 @@ pnpm run dev
 - **Place it:** with `dev` running, add the block in the theme editor (a pre-book product template, Add block, Apps, B2B Pre-booking). **No deploy.**
 - **Gotcha (dark mode):** if the block looks great in the theme editor but washed-out on the storefront, your AI added a `prefers-color-scheme: dark` media query and your OS is dark. Delete that media query. (`finished` branch CSS is the reference.)
 - **Gotcha (no line item properties):** block renders but nothing lands on the cart/checkout line. On the default **Horizon** theme, form injection alone is dropped, Horizon builds the `/cart/add` body from selected fields, not the whole form. Fix (in prompt [`02`](../prompts/02-theme-app-block.md)): also intercept `/cart/add` by patching `fetch` + `XMLHttpRequest.send` and appending `properties[...]` to the FormData (gated by `product-id`). Confirm in Network: `/cart/add` payload should carry `properties[Season]`.
-- **Say (2 lines):** (1) `product.metafields["custom"]["b2b-prebooking"]`, "one line reads the season, nothing hardcoded." (2) the `<script>`, "writes Season + Delivery window onto the cart line so they reach checkout on any plan."
+- **Say (2 lines, from `SESSION.md`, no file open):** (1) `product.metafields["custom"]["b2b-prebooking"]`, "one line reads the season, nothing hardcoded." (2) the cart-line script, "writes Season + Delivery window onto the cart line so they reach checkout on any plan."
 - **Verify (as Maya Cruz on the storefront):** pre-book PDP shows the windows; add to cart -> `Season` + `Delivery window` appear on the cart line and at checkout; an available-now product shows nothing.
 
 ---
@@ -147,7 +153,7 @@ Built **before** the Flows so your later test orders already carry due-on-fulfil
 
 ### 3a. Implement the Function (tab 2, paste prompt)
 - Confirm auto-accept-edits is on, then paste [`prompts/03`](../prompts/03-plus-payment-terms-function.md) into your AI assistant. `dev` rebuilds on save; **no deploy, no `function build`** (decline any command the AI proposes).
-- **Say (2 lines):** (1) the two `return NO_CHANGES` guards, "only acts on a B2B cart with a pre-book item, everything else passes through, fail-open." (2) the `operations`, "does exactly two things: set due-on-fulfillment, hide 'pay later' so a card gets vaulted."
+- **Say (2 lines, from `SESSION.md`, no file open):** (1) the two fail-open guards, "only acts on a B2B cart with a pre-book item, everything else passes through." (2) the operations, "does exactly two things: set due-on-fulfillment, hide 'pay later' so a card gets vaulted."
 
 ### 3b. Activate it (tab 1, press `g`)
 - In tab 1, press **`g`** to open the app's GraphiQL. Set API version to the latest stable.
@@ -174,17 +180,18 @@ mutation {
 
 ---
 
-## PART 4 - Flow: tag pre-book orders (~4 min) [both] - prompt [`04`](../prompts/04-flow-tag-prebook-orders.md)
+## PART 4 - Flows (~8 min) [both] - prompts [`04`](../prompts/04-flow-tag-prebook-orders.md) + [`05`](../prompts/05-flow-charge-on-fulfillment.md)
 
+**Frame:** "We've given the buyer the PDP and the right checkout. Now we make the merchant's life easier
+managing these orders and payments, two Flows, one purpose."
+
+### 4a. Tag pre-book orders (~4 min) - prompt [`04`](../prompts/04-flow-tag-prebook-orders.md)
 - Build **Flow 1** with the Sidekick prompt in [`prompts/04`](../prompts/04-flow-tag-prebook-orders.md).
 - **Say:** "B2B-guarded so DTC orders stay untagged. The `Prebooking` tag is both the merchant's filter and the signal the charge Flow keys on."
 - **Verify:** a new B2B pre-book order gets `Prebooking`; a DTC order with the same product does not.
 - **Gotcha (timing):** Flow 1 is async, the tag can take **2-3 min**. Don't wait on stage; you'll verify during the payoff.
 
----
-
-## PART 5 - Flow: charge on fulfillment (~4 min) [both] - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
-
+### 4b. Charge on fulfillment (~4 min) - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
 - Build **Flow 2** with the Sidekick prompt in [`prompts/05`](../prompts/05-flow-charge-on-fulfillment.md).
 - **Say:** "One Flow serves both plans, non-Plus charges once at full fulfillment, Plus per fulfillment, driven by how each plan makes payment schedules. `completedAt does not exist` is the double-charge guard."
 - **Verify:** fulfilling a pre-book order charges the vaulted method once (you'll show this in the payoff).
@@ -206,7 +213,7 @@ this section, narrate the rest while Flow 1's tag lands, then fulfill.
 
 ## ADAPT - non-Plus (~8 min, show, no code)
 
-Walk the pre-seeded two-location arrangement per [`delivery-guide.md`](delivery-guide.md) Part 3:
+Walk the pre-seeded two-location arrangement per [`delivery-guide.md`](delivery-guide.md) (adapt for non-Plus):
 separate Available Now (Net 30) and Pre-book (due on fulfillment) locations, same theme block + both
 Flows unchanged, force-vault via an App Store app (custom Functions need Plus).
 

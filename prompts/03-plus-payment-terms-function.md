@@ -13,15 +13,13 @@ Function detects a pre-book item in the cart and, for that checkout only:
   due-on-fulfillment), and force-vaulting comes from an **App Store (public) app**, because
   custom apps that contain Functions require Plus.
 
-## Open the scaffolded extension
+## Scaffold (already in the starter)
 
-The starter already includes `extensions/prebooking-payment-terms/` with a **stubbed**
-`src/cart_payment_methods_transform_run.ts` (returns no changes) and a stub input query in
-`src/cart_payment_methods_transform_run.graphql`. You implement the query + logic there.
+The starter already includes `extensions/prebooking-payment-terms/` with a stub Function and stub
+input query. You implement the query + logic there. You do **not** need to open those files to follow
+along; the teach callouts below show what matters.
 
-(Building from scratch instead? `shopify app generate extension --template payment_customization --name prebooking-payment-terms`.)
-
-## Prompt (Cursor / your AI tool)
+## Prompt (copy the whole fence into your AI)
 
 > **Speed it up.** This build is **edit-only**, `shopify app dev` rebuilds the Function on save, so the
 > AI only needs to edit `src/` files; it does **not** need to run `function build`, `deploy`, or any
@@ -30,8 +28,45 @@ The starter already includes `extensions/prebooking-payment-terms/` with a **stu
 > this for Claude Code automatically. Commands still prompt, so decline any the AI proposes.
 
 ```text
-Implement the `cart.payment-methods.transform.run` target. You only need to edit files in `src/` (dev is running and rebuilds on save); do not run any CLI commands. Input query: the cart's purchasing company id, each line's `merchandise ... on ProductVariant { product { metafield(namespace:"custom", key:"b2b-prebooking"){ value } } }`, and the available `paymentMethods { id name }`. Logic: if there's no purchasing company, return no changes. If any line's product has the `custom.b2b-prebooking` metafield set, it's a pre-book cart: return a `paymentTermsSet` operation with an event trigger of `FULFILLMENT_CREATED` (due on fulfillment), plus `paymentMethodHide` for any payment method whose name matches the deferred option. Match the deferred method by name; on B2B checkout the underlying name is "Deferred" (the label shown to buyers is "Choose payment method at a later time"). Keep the match configurable.
+Implement the `cart.payment-methods.transform.run` target.
+
+You only need to edit files in `src/` (dev is running and rebuilds on save);
+do not run any CLI commands.
+
+Input query:
+- the cart's purchasing company id
+- each line's merchandise ... on ProductVariant {
+    product { metafield(namespace: "custom", key: "b2b-prebooking") { value } }
+  }
+- the available paymentMethods { id name }
+
+Logic:
+- If there's no purchasing company, return no changes.
+- If any line's product has the `custom.b2b-prebooking` metafield set, it's a pre-book cart:
+  - return a `paymentTermsSet` operation with an event trigger of `FULFILLMENT_CREATED`
+    (due on fulfillment)
+  - plus `paymentMethodHide` for any payment method whose name matches the deferred option
+
+Match the deferred method by name. On B2B checkout the underlying name is "Deferred"
+(the label shown to buyers is "Choose payment method at a later time").
+Keep the match configurable.
 ```
+
+### While it builds (~2–3 min): talk this through
+
+You do **not** need to open the TypeScript file. Say these two ideas out loud:
+
+1. **Fail open (two guards):**  
+   return no changes unless it's a B2B cart **and** at least one line has `custom.b2b-prebooking`  
+   *"The function only acts on a B2B cart that actually contains a pre-book item. Every other checkout,
+   DTC or available-now-only, passes through untouched."*
+
+2. **When it acts, do exactly two things:**  
+   `paymentTermsSet` (due on fulfillment) + hide the method named `"Deferred"`  
+   *"Switch terms so payment is due when it ships, and hide 'pay later' so a card gets vaulted, which
+   is what lets Flow charge automatically on shipment."*
+
+Two sentences: **only on a B2B pre-book cart, do exactly two things.**
 
 ## No deploy needed
 
@@ -57,18 +92,19 @@ mutation {
 }
 ```
 
-The `functionHandle` comes from `shopify.extension.toml`, so this mutation is identical for everyone,
-nothing to fill in. Expect an `id` back and empty `userErrors`. Full context and troubleshooting
-(`Could not find Function`, scope errors) are in `../workshop-assets/payment-customization-activation.md`.
+The `functionHandle` is fixed in the starter (`prebooking-payment-terms`), so this mutation is
+identical for everyone, nothing to fill in. Expect an `id` back and empty `userErrors`. Full
+troubleshooting (`Could not find Function`, scope errors) is in
+`../workshop-assets/payment-customization-activation.md`.
 
 ## You should see
 
 On the combined (Plus) location, a mixed cart (an available-now item plus a pre-book item)
 switches to due-on-fulfillment and hides the deferred payment option; an available-now-only
 cart stays on Net 30 with the deferred option visible. The `shopify app dev` tab prints each
-Function execution as you check out. Flow (Part 5) then charges the vaulted card per fulfillment.
+Function execution as you check out. Flow (Part 4b) then charges the vaulted card per fulfillment.
 
-## Teach
+## Teach (deeper, optional)
 
 - The deferred method's `name` ("Deferred") is not the checkout display label ("Choose payment
   method at a later time"). Match against real Function input, not the visible text. Watch the

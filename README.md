@@ -4,8 +4,10 @@ A hands-on workshop for partners and developers: build B2B pre-order / pre-booki
 Shopify capabilities, before selling plans are available for B2B. This repo is a **foundation to
 build from**, not a turnkey product: patterns, prompts, and a starter app you extend for your merchant.
 
-**This README is the workshop.** Read it top to bottom, then build part by part. Each step has a
-matching prompt in [`prompts/`](prompts); the `finished` branch is the reference solution.
+**This README is the workshop overview + prework.** For the live build, attendees use one doc:
+[`SESSION.md`](SESSION.md) (prompts, checkpoints, and teach-aloud callouts in one place). Each step
+also has a matching prompt file in [`prompts/`](prompts); the `finished` branch is the reference
+solution.
 
 > ## ⚠️ Required prework, do it BEFORE the session
 >
@@ -13,7 +15,7 @@ matching prompt in [`prompts/`](prompts); the `finished` branch is the reference
 > Shopify Payments in test mode, Shopify Flow, and the store seed script all take time or have
 > verification delays). **Do every step in
 > [`workshop-assets/prerequisites.md`](workshop-assets/prerequisites.md) before you arrive.** In the
-> room we only clone, `pnpm install`, and build. See [Get ready](#get-ready).
+> room, open [`SESSION.md`](SESSION.md) and build. See [Get ready](#get-ready).
 
 ## The problem
 
@@ -109,14 +111,15 @@ The first `dev` links the app in your Partner org, then pick your dev store and 
 in the browser** (one click; the app's only scope is payment customizations, used in Part 3). The app
 ships **no data model in `shopify.app.toml`**, so this first `dev` needs no write scopes and starts
 cleanly on a fresh store. Expect a **storefront password** prompt (Admin, Online Store, Preferences)
-and a **sudo/login password** for the local `mkcert` certificate. Details and troubleshooting:
-[`prompts/01`](prompts/01-scaffold-app.md).
+and, on first `--use-localhost`, a **mkcert** prompt: select **"Yes, use mkcert to generate it"**, then
+enter your Mac/admin (sudo) password. Details and troubleshooting: [`prompts/01`](prompts/01-scaffold-app.md).
 
 ## Repo structure
 
 ```
 .
-├── prompts/            AI prompts + CLI commands, one per build step (Plus first)
+├── SESSION.md          In-session follow-along (attendees: keep this open)
+├── prompts/            Same paste prompts + deeper teach notes (optional)
 ├── starter/            The Shopify app you extend (theme block + payment Function)
 │   └── b2b-prebooking-workshop/   see its README for app layout + what ships vs. what you build
 └── workshop-assets/    Prework, seeding, activation, Flow definitions, and reset
@@ -154,11 +157,20 @@ values** (create the season, assign it to the pre-book products), which is Part 
 
 ## How the workshop runs (Plus first)
 
+> **Attendees:** open [`SESSION.md`](SESSION.md) and keep it open. Everything you need in the room
+> (talk track, Admin clicks, copy-paste prompts, while-it-builds teach notes, checkpoints) is there.
+> You do not need to open Liquid, TypeScript, or TOML files to follow along.
+
 **The session opens with a live demo of the finished flow** on a fully built store, so you see exactly
 what you're building toward before you write anything. Then you build it. Build the full Plus experience
-first (Parts 1 to 5), then adapt for non-Plus (Part 6). Test every step by **logging in as your B2B buyer
+first (Parts 1 to 4), then adapt for non-Plus (Part 5). Test every step by **logging in as your B2B buyer
 through the storefront** (a one-time code is emailed); the admin preview and D2C visitors won't trigger
 the block or the B2B payment behavior.
+
+**Talk track (three build beats after the data model):** theme block so the **buyer** sees pre-book
+context on the PDP; payment Function so checkout has the **right terms** for pre-book; then the two
+**Flows** so the **merchant** can manage these orders and payments without manual work. The Flows are
+one session part with two sub-steps (still two separate Sidekick prompts).
 
 **How to work: two terminal tabs.** Tab 1 runs `shopify app dev` the whole session (it serves the theme
 block and the Function, and rebuilds on every save); when you need GraphiQL, press `g` **here** and it
@@ -171,9 +183,8 @@ and no deploy/restart dance.
 | **1. Data model** | both | the season metaobject + product metafield already exist (seeded); create one season and assign it to the pre-book products in Admin | [`01`](prompts/01-scaffold-app.md) | The **B2B Pre-booking** metaobject + `custom.b2b-prebooking` product metafield show in Settings > Custom data; a pre-book product shows the season |
 | **2. Theme block** | both | build and place the PDP block that reads the season and injects line item properties | [`02`](prompts/02-theme-app-block.md) | Pre-book PDP shows the windows; `Season` + `Delivery window` appear on cart and checkout; available-now shows nothing |
 | **3. Plus payment-terms Function** | Plus | implement the Function, then activate it with one mutation in the app's GraphiQL (press `g`) | [`03`](prompts/03-plus-payment-terms-function.md) | On Combined, a mixed cart flips to due-on-fulfillment and hides deferred; a Net-30 cart is unchanged |
-| **4. Flow: tag pre-book orders** | both | Flow 1 (Sidekick prompt), B2B-guarded, adds the `Prebooking` order tag | [`04`](prompts/04-flow-tag-prebook-orders.md) | A B2B pre-book order gets `Prebooking`; a DTC order with the same product does not |
-| **5. Flow: charge on fulfillment** | both | Flow 2 (Sidekick prompt) charges the vaulted card when fulfilled, with a `completedAt` double-charge guard | [`05`](prompts/05-flow-charge-on-fulfillment.md) | Fulfilling a pre-book order charges the vaulted method once |
-| **6. Adapt for non-Plus** | non-Plus | no new code: two fixed-term locations; force-vault via an App Store app | n/a | Available-now and pre-book are ordered separately with their own terms; the app hides deferred on a pre-book cart |
+| **4. Flows** | both | two Sidekick workflows: tag pre-book B2B orders, then charge the vaulted card on fulfillment | [`04`](prompts/04-flow-tag-prebook-orders.md) then [`05`](prompts/05-flow-charge-on-fulfillment.md) | Order gets `Prebooking`; fulfilling charges the vaulted method once |
+| **5. Adapt for non-Plus** | non-Plus | no new code: two fixed-term locations; force-vault via an App Store app | n/a | Available-now and pre-book are ordered separately with their own terms; the app hides deferred on a pre-book cart |
 
 Key points per part:
 
@@ -182,18 +193,20 @@ Key points per part:
   The definitions are already there; only the **values** (create the season, assign it to the pre-book
   products) are yours to author, right in Admin (see
   [`data-model-seed.md`](workshop-assets/data-model-seed.md)).
-- **Part 2.** The block reads the season in Liquid and injects visible line item properties, the
-  all-plans way to carry pre-book context to checkout.
-- **Part 3.** The Plus differentiator, built before the Flows so your test orders already carry the
-  right terms. The Function detects a pre-book item and, for that checkout only, switches Net 30 to
-  due-on-fulfillment (`paymentTermsSet`, Plus-only) and hides the deferred option (match it by its real
-  input name "Deferred", not the label). No deploy: `shopify app dev` already serves the Function, so
-  you activate it with **one mutation in the app's GraphiQL** (press `g`), using the stable function
-  handle, so the mutation is identical for everyone. See
+- **Part 2.** Buyer-facing: the block reads the season in Liquid and injects visible line item
+  properties, the all-plans way to carry pre-book context to checkout.
+- **Part 3.** Checkout experience: the Plus differentiator, built before the Flows so your test orders
+  already carry the right terms. The Function detects a pre-book item and, for that checkout only,
+  switches Net 30 to due-on-fulfillment (`paymentTermsSet`, Plus-only) and hides the deferred option
+  (match it by its real input name "Deferred", not the label). No deploy: `shopify app dev` already
+  serves the Function, so you activate it with **one mutation in the app's GraphiQL** (press `g`), using
+  the stable function handle, so the mutation is identical for everyone. See
   [`payment-customization-activation.md`](workshop-assets/payment-customization-activation.md).
-- **Part 5.** One Flow serves both plans: non-Plus charges once at full fulfillment, Plus per
-  fulfillment, driven by how each plan generates payment schedules, not by anything you author.
-- **Part 6.** Most B2B merchants aren't on Plus. Without the two Plus-only pieces they pre-separate the
+- **Part 4.** Merchant ops, one part / two prompts: (4a) tag pre-book B2B orders so they're filterable;
+  (4b) charge the vaulted card on fulfillment. One charge Flow serves both plans: non-Plus charges once
+  at full fulfillment, Plus per fulfillment, driven by how each plan generates payment schedules, not by
+  anything you author.
+- **Part 5.** Most B2B merchants aren't on Plus. Without the two Plus-only pieces they pre-separate the
   journeys (Available Now on Net 30, Pre-book on due-on-fulfillment), so each single-term order charges
   correctly via the same Flow. The theme block and both Flows work unchanged. The only non-Plus-specific
   piece is the force-vault: custom apps with Functions require Plus, so the "hide pay later" comes from an

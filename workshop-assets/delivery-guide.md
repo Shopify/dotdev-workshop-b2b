@@ -180,6 +180,10 @@ else works without Plus. The whole game is which combination you reach for on wh
 This is the exercise. Attendees code along; the `finished` branch is the recovery path if anyone
 falls behind. Each sub-part has a checkpoint.
 
+**Talk track after the data model is seeded:** (1) theme block so the buyer sees what they need on
+pre-book products, (2) payment Function so checkout has the right experience for pre-book, (3) Flows
+so the merchant can manage these orders and payments. Flows are one beat with two Sidekick prompts.
+
 ### 2a. App data model + theme block (~11 min)  [both]
 Two beats; keep them mentally separate so a stall on seeding doesn't eat the theme-block time.
 
@@ -202,14 +206,15 @@ properties** (`Season`, `Delivery window`) into the add-to-cart form, the all-pl
 pre-order context to cart and checkout; non-Plus has no other hook there (works everywhere, not a
 Plus feature).
 
-> **Highlight (say this). For a non-dev presenter, point at two lines in `b2b-prebooking.liquid`:**
-> 1. `product.metafields["custom"]["b2b-prebooking"]` (near the top): *"This one line is the whole
->    data-model connection. The block reads the season we attached to this product, nothing is
->    hardcoded, so it updates automatically when you change the season."*
-> 2. The small `<script>` block: *"And this is how pre-book context reaches checkout on any plan, no
->    Plus required. It writes the Season and Delivery window onto the cart line as line-item
->    properties, so they show in the cart, at checkout, and on the order."*
+> **Highlight (say this). Do not open the Liquid file; say the ideas while the AI builds:**
+> 1. `product.metafields["custom"]["b2b-prebooking"]`: *"This one line is the whole data-model
+>    connection. The block reads the season we attached to this product, nothing is hardcoded, so it
+>    updates automatically when you change the season."*
+> 2. The cart-line script: *"And this is how pre-book context reaches checkout on any plan, no Plus
+>    required. It writes the Season and Delivery window onto the cart line as line-item properties, so
+>    they show in the cart, at checkout, and on the order."*
 > That's the whole file in two sentences: **read the season, carry it to checkout everywhere.**
+> (Same callouts live in [`SESSION.md`](../SESSION.md) Part 2 for attendees.)
 
 **Checkpoint.** ✅ Settings, Custom data shows the **B2B Pre-booking** metaobject + the
 `custom.b2b-prebooking` product metafield; a B2B buyer on a pre-order product sees the windows; adding
@@ -229,27 +234,31 @@ one smart cart. Two firsthand gotchas: (1) match the deferred method by its **re
 (`"Deferred"`), not the display label; (2) fail open, return no change for non-B2B and
 available-now-only carts, because the Function runs on every checkout.
 
-> **Highlight (say this). Point at two spots in `cart_payment_methods_transform_run.ts`:**
-> 1. The two `return NO_CHANGES` guards at the top: *"The function only acts on a B2B cart that
->    actually contains a pre-book item. Every other checkout, DTC or available-now-only, passes through
->    untouched, that's the fail-open safety."*
-> 2. The `operations` it returns: *"When it does act, it does exactly two things: switch the terms to
+> **Highlight (say this). Do not open the Function source; say the ideas while the AI builds:**
+> 1. The two fail-open guards: *"The function only acts on a B2B cart that actually contains a
+>    pre-book item. Every other checkout, DTC or available-now-only, passes through untouched, that's
+>    the fail-open safety."*
+> 2. The two operations: *"When it does act, it does exactly two things: switch the terms to
 >    due-on-fulfillment, and hide the 'pay later' option so a card gets vaulted, which is what lets
 >    Flow charge automatically on shipment."*
 > Two sentences: **only on a B2B pre-book cart, do exactly two things.**
+> (Same callouts live in [`SESSION.md`](../SESSION.md) Part 3 for attendees.)
 
 **Checkpoint.** ✅ Mixed cart on the combined location flips to due-on-fulfillment and hides
 deferred; available-now-only cart stays Net 30. (The Flows you build next do the charging.)
 
-### 2c. Flow: tag pre-order B2B orders (~4 min)  [both]
-**Step.** Build Flow 1 from `prompts/04-flow-tag-prebook-orders.md` (Sidekick prompt).
+### 2c. Flows (~8 min)  [both]: merchant ops after the buyer-facing build
+**Frame.** Theme block = buyer sees pre-book context; Function = right checkout. Now two Flows so the
+merchant can manage these orders and payments without manual tagging or charging. Same part, two
+Sidekick prompts.
+
+**Sub-step 4a, tag (~4 min).** Build Flow 1 from `prompts/04-flow-tag-prebook-orders.md` (Sidekick).
 **Teach.** Iterate the Sidekick prompt and read what it generates. The B2B guard keeps DTC orders
 untagged; the `Prebooking` tag is both a merchant filter and the signal the charge Flow keys on.
 **Checkpoint.** ✅ A new B2B order with a pre-order product gets the `Prebooking` tag; a DTC order
 does not.
 
-### 2d. Flow: charge the vaulted card on fulfillment (~4 min)  [both]
-**Step.** Build Flow 2 from `prompts/05-flow-charge-on-fulfillment.md` (Sidekick prompt).
+**Sub-step 4b, charge (~4 min).** Build Flow 2 from `prompts/05-flow-charge-on-fulfillment.md` (Sidekick).
 **Teach.** One Flow serves both plans: non-Plus charges once at full fulfillment, Plus charges per
 fulfillment, driven by how each plan generates payment schedules, not by anything you author. The
 `completedAt does not exist` condition is your double-charge guard. (Hard-won: without it, a

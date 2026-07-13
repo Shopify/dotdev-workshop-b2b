@@ -31,9 +31,10 @@ pnpm run dev              # = shopify app dev --use-localhost
 password-protected and the theme app extension needs it to preview). Paste the value from Admin,
 **Online Store, Preferences, Password protection**.
 
-**First `--use-localhost` run generates a localhost certificate with mkcert**, which installs a local
-CA into your system trust store and so **asks for your Mac/admin (sudo) password**. Say yes and enter
-it; one-time per machine. No local admin rights? Drop `--use-localhost` and run plain
+**First `--use-localhost` run asks you to generate a localhost certificate with mkcert.** When the CLI
+prompts something like **"Yes, use mkcert to generate it"**, select that **Yes** option. mkcert then
+installs a local CA into your system trust store and **asks for your Mac/admin (sudo) password**; enter
+it. One-time per machine. No local admin rights? Drop `--use-localhost` and run plain
 `shopify app dev` (it falls back to the Cloudflare tunnel; the only downside is tunnel throttling when
 the whole room starts at once).
 

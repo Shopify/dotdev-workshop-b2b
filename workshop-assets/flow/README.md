@@ -1,12 +1,16 @@
 # Flows
 
-Two Shopify Flow workflows power the pre-book order lifecycle, and both work on all plans:
+Workshop **Part 4** (one beat, two Sidekick prompts). Two Shopify Flow workflows power the
+pre-book order lifecycle, and both work on all plans:
 
-- **Flow 1: tag pre-book B2B orders.** Tags B2B orders that contain a pre-book item so they
+- **Flow 1 (Part 4a): tag pre-book B2B orders.** Tags B2B orders that contain a pre-book item so they
   can be filtered in Admin and so Flow 2 knows which orders to act on.
-- **Flow 2: charge the vaulted card on fulfillment.** Charges the buyer's vaulted method when
+- **Flow 2 (Part 4b): charge the vaulted card on fulfillment.** Charges the buyer's vaulted method when
   a pre-book order's payment comes due (once at full fulfillment on non-Plus, per fulfillment
   on Plus). Depends on Flow 1's tag.
+
+Talk track: after the theme block (buyer sees pre-book context) and the payment Function (right
+checkout), these Flows make the merchant's life easier managing orders and payments.
 
 ## Building them (recommended)
 

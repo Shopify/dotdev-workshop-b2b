@@ -21,15 +21,13 @@ is how you seed one season entry and assign it to each pre-book product **in Par
 `../workshop-assets/data-model-seed.md`). That's the part you author, the **values**; the definitions
 are already there. This block just reads them.
 
-## Open the scaffolded extension
+## Scaffold (already in the starter)
 
-The starter already includes `extensions/prebooking-theme/` with `blocks/b2b-prebooking.liquid`
-as a **stub** (the `{% schema %}` + `product` setting, no logic yet) and an empty
-`assets/b2b-prebooking.css`. You implement the block there, no need to generate it.
+The starter already includes `extensions/prebooking-theme/` with a stub block and empty CSS. You
+implement the block there (no generate step). You do **not** need to open those files to follow along;
+the teach callouts below show what matters.
 
-(Building from scratch instead? `shopify app generate extension --template theme_app_extension --name prebooking-theme`.)
-
-## Prompt (Cursor / your AI tool)
+## Prompt (copy the whole fence into your AI)
 
 > **Speed it up.** This build is **edit-only**, `shopify app dev` hot-reloads on save, so the AI only
 > needs to edit files; it does **not** need to run any commands. Before you paste, put your AI tool in
@@ -39,8 +37,71 @@ as a **stub** (the `{% schema %}` + `product` setting, no logic yet) and an empt
 > it isn't needed here.
 
 ```text
-In this theme app extension, create an app block `blocks/b2b-prebooking.liquid` with a `product` setting (autofill true). You only need to edit files (dev is running and hot-reloads); do not run any CLI commands. Read the product's metaobject reference into a `season` variable from the `custom` namespace: `product.metafields["custom"]["b2b-prebooking"].value`. Render only when the season is present AND the buyer is a B2B buyer (`customer.b2b?`), plus also render in the theme editor (`request.design_mode`) so the block can be positioned. When shown, display a "Pre-book: {season_name}" badge, the ordering window (order_start_date to order_end_date) and the expected delivery window (delivery_start_date to delivery_end_date), formatted as dates, and a short note that the item is placed now and ships in the delivery window with payment due on fulfillment. Use literal English strings for all copy; do NOT use the `| t` translation filter or add a locales file (theme-check reports false-positive `TranslationKeyExists` errors for app-extension locales, which is confusing on stage, and this isn't a localization exercise). Put CSS in `assets/b2b-prebooking.css` and load it with `asset_url | stylesheet_tag` (theme app blocks cannot use the `{% stylesheet %}` tag). Use neutral colors that read on a light storefront theme, and do NOT add an OS `prefers-color-scheme` dark-mode media query (the storefront theme controls the palette, not the visitor's OS). Add a script that attaches `properties[Season]` and `properties[Delivery window]` to the cart line so they become visible line item properties. Bake the values into the script from Liquid (`| json`); do not read metafields client-side. This is a `target: "section"` block that renders OUTSIDE the product form, and the default Horizon theme builds the `/cart/add` request from selected fields rather than serializing the whole form, so do BOTH of these: (1) inject hidden inputs into the add-to-cart form found at the document level (`document.querySelectorAll('form[action*="/cart/add"]')`, not the block's own element), idempotently, re-injecting on variant change (`change` on `input[name="id"]`) and section re-render (`MutationObserver`); AND (2) intercept the `/cart/add` request by patching `window.fetch` and `XMLHttpRequest.prototype.send`, and append the `properties[...]` entries ONLY when the request body is a `FormData` whose `product-id` equals `block.settings.product.id` (skip when `product-id` is absent or differs, so a same-page quick-add of a DIFFERENT product, e.g. "you may also like", is not mis-tagged with this product's season). Part (2) is what makes it work on Horizon; part (1) covers classic themes.
+In this theme app extension, create an app block `blocks/b2b-prebooking.liquid`
+with a `product` setting (autofill true).
+
+You only need to edit files (dev is running and hot-reloads); do not run any CLI commands.
+
+Read the product's metaobject reference into a `season` variable from the `custom` namespace:
+`product.metafields["custom"]["b2b-prebooking"].value`.
+
+Render only when the season is present AND the buyer is a B2B buyer (`customer.b2b?`),
+plus also render in the theme editor (`request.design_mode`) so the block can be positioned.
+
+When shown, display:
+- a "Pre-book: {season_name}" badge
+- the ordering window (order_start_date to order_end_date)
+- the expected delivery window (delivery_start_date to delivery_end_date), formatted as dates
+- a short note that the item is placed now and ships in the delivery window with payment due on fulfillment
+
+Use literal English strings for all copy; do NOT use the `| t` translation filter or add a locales
+file (theme-check reports false-positive `TranslationKeyExists` errors for app-extension locales,
+which is confusing on stage, and this isn't a localization exercise).
+
+Put CSS in `assets/b2b-prebooking.css` and load it with `asset_url | stylesheet_tag`
+(theme app blocks cannot use the `{% stylesheet %}` tag). Use neutral colors that read on a light
+storefront theme, and do NOT add an OS `prefers-color-scheme` dark-mode media query (the storefront
+theme controls the palette, not the visitor's OS).
+
+Add a script that attaches `properties[Season]` and `properties[Delivery window]` to the cart line
+so they become visible line item properties. Bake the values into the script from Liquid (`| json`);
+do not read metafields client-side.
+
+This is a `target: "section"` block that renders OUTSIDE the product form, and the default Horizon
+theme builds the `/cart/add` request from selected fields rather than serializing the whole form,
+so do BOTH of these:
+
+(1) inject hidden inputs into the add-to-cart form found at the document level
+    (`document.querySelectorAll('form[action*="/cart/add"]')`, not the block's own element),
+    idempotently, re-injecting on variant change (`change` on `input[name="id"]`) and section
+    re-render (`MutationObserver`);
+
+AND
+
+(2) intercept the `/cart/add` request by patching `window.fetch` and `XMLHttpRequest.prototype.send`,
+    and append the `properties[...]` entries ONLY when the request body is a `FormData` whose
+    `product-id` equals `block.settings.product.id` (skip when `product-id` is absent or differs,
+    so a same-page quick-add of a DIFFERENT product, e.g. "you may also like", is not mis-tagged
+    with this product's season).
+
+Part (2) is what makes it work on Horizon; part (1) covers classic themes.
 ```
+
+### While it builds (~2–3 min): talk this through
+
+You do **not** need to open the Liquid file. Say these two ideas out loud:
+
+1. **Read the season (one line):**  
+   `product.metafields["custom"]["b2b-prebooking"]`  
+   *"This is the whole data-model connection. The block reads the season we attached to this product.
+   Nothing is hardcoded, so it updates when you change the season."*
+
+2. **Carry context to checkout (any plan):**  
+   the script that writes `properties[Season]` and `properties[Delivery window]` onto the cart line  
+   *"This is how pre-book context reaches cart and checkout on any plan, no Plus required. Line item
+   properties show in the cart, at checkout, and on the order."*
+
+Two sentences for the whole block: **read the season, carry it to checkout everywhere.**
 
 > **If the block looks fine in the theme editor but washed-out on the storefront** (invisible panel,
 > unreadable text), your AI likely added a `@media (prefers-color-scheme: dark)` block and your OS is
@@ -70,7 +131,7 @@ On a pre-book product, a logged-in B2B buyer sees the windows panel. Adding to c
 product page attaches `Season` and `Delivery window` to that cart line, visible on cart and
 checkout. Available-now products show nothing and get no properties.
 
-## Teach
+## Teach (deeper, optional)
 
 - **Line item property `name` vs the value the theme reads.** Metafields are resolved
   server-side in Liquid and baked into the script; the JS does not read metafields client-side.
