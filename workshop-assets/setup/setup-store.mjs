@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Store setup for the B2B pre-booking workshop (Node port of the former setup-store.py).
+// Store setup for the B2B pre-booking workshop.
 //
 // Provisions the full pre-work build: the B2B company + buyer, the non-Plus structure (two
 // locations/markets/catalogs), a DTC catalog, and the Plus "Combined" location (dev stores have

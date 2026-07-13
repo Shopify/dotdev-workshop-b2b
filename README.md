@@ -84,10 +84,9 @@ tricky Shopify Payments setup and the exact steps. The short version:
   uses, including the Plus-only pieces).
 - **Shopify Payments in test mode**, with payment capture set to **manual or on-fulfillment** (not at
   checkout).
-- **Shopify Flow** installed (free, from the App Store). No GraphiQL app: the Plus payment Function is
-  activated in-session with the Shopify CLI (the two `*_payment_customizations` scopes are in the store
-  auth).
-- **Node.js 20+**, **pnpm** (or npm), and **Shopify CLI 4+**. (No Python: the setup script is Node.)
+- **Shopify Flow** installed (free, from the App Store). The Plus payment Function is activated
+  in-session with the Shopify CLI (the two `*_payment_customizations` scopes are in the store auth).
+- **Node.js 20+**, **pnpm** (or npm), and **Shopify CLI 4+**.
 - An **AI assistant** with the **Shopify Dev MCP** and **Shopify AI Toolkit** (the repo ships the MCP
   config, so most assistants auto-load it).
 - The store structure (company, buyer, locations, catalogs, markets, terms, products) is created for

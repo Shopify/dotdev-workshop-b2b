@@ -59,8 +59,7 @@ along; in the room we only clone, install, and build. Give yourself a few days o
     customers, but every login code still lands in `brandon.anderson@shopify.com`. Handy for
     testing different buyers/locations without extra inboxes.
 - **Node.js 20+** and a package manager: **pnpm or npm** (the commands in these docs use pnpm;
-  substitute `npm` if you prefer). Node also runs the pre-seed **setup script** (`setup-store.mjs`),
-  so there's no separate Python requirement.
+  substitute `npm` if you prefer). Node also runs the pre-seed **setup script** (`setup-store.mjs`).
 - **Shopify CLI 4+** installed and authenticated (`shopify version`). On an older major, upgrade
   with `pnpm add -g @shopify/cli@latest` (or `npm install -g @shopify/cli@latest`).
 - A supported **AI coding assistant**: Claude Code, Codex, Cursor, VS Code, Antigravity CLI,
@@ -83,10 +82,9 @@ along; in the room we only clone, install, and build. Give yourself a few days o
   installed. App installs aren't scriptable, so this is a manual step.
 - **Sidekick** is built into the Shopify admin (no setup needed); you'll use it in-session to
   build the two Flows.
-- **No GraphiQL app needed.** The Plus payment Function is activated **in-session** with the Shopify
-  CLI (or by asking your AI assistant), using the `read_payment_customizations` and
-  `write_payment_customizations` scopes that are already in the `shopify store auth` step below.
-  Nothing to install here.
+- **The Plus payment Function is activated in-session** with the Shopify CLI (or by asking your AI
+  assistant), using the `read_payment_customizations` and `write_payment_customizations` scopes that
+  are already in the `shopify store auth` step below.
 
 ## Get the project (clone)
 

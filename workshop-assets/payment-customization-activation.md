@@ -7,7 +7,7 @@ but it does not run at checkout until you create a **payment customization** tha
 
 Creating one is a single Admin API mutation, `paymentCustomizationCreate`. There's no native admin
 screen for it, so you run it once with the **Shopify CLI** (`shopify store execute`), the same tool the
-pre-work setup script uses. No extra app to install. This is a one-time activation per store.
+pre-work setup script uses. This is a one-time activation per store.
 
 > **Prerequisite (already done in pre-work):** `shopify store auth` was run with
 > `read_payment_customizations` and `write_payment_customizations` in the scope list (see

@@ -52,7 +52,7 @@ PDP block's CSS (`asset_url`) starts returning 404 and the block renders unstyle
 and run it again; the block re-styles immediately. (Symptom: the block content shows but the panel,
 badge, and grid disappear; the CSS request in DevTools is a `…/dev-…/assets/b2b-prebooking.css` 404.)
 
-Activation is a one-time step done with the Shopify CLI (no GraphiQL app): `shopify store execute`
+Activation is a one-time step done with the Shopify CLI: `shopify store execute`
 queries `shopifyFunctions` for this function's global id, then runs `paymentCustomizationCreate`. Run
 `STORE=<store>.myshopify.com pnpm run activate` (or just ask your AI assistant to do it). Full steps
 and mutations are in `../workshop-assets/payment-customization-activation.md`.
@@ -71,5 +71,4 @@ card per fulfillment.
   input via the Partner dashboard function runs (the CLI `shopify app logs` only attaches to
   dev stores in the app's org, not a demo store).
 - `functionId` is global, so the CLI (`shopify store execute`) can create the payment customization
-  even though it isn't the owning app. (This is why activation, unlike the `$app` data-model seed,
-  doesn't need the app's own GraphiQL.)
+  even though it isn't the owning app.

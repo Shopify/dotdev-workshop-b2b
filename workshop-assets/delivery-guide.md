@@ -40,7 +40,7 @@ sandbox store with B2B on; **Shopify Payments in test mode** with a vaulted test
 capture not set to at-checkout** (manual or on-fulfillment, either works); **clone the repo** (the setup script runs from it); run the pre-work
 **setup script** (products, collections, company/buyer, locations, markets, catalogs, terms, DTC);
 `shopify store auth` with the scope list (includes the two `*_payment_customizations` scopes for
-in-session Function activation, no GraphiQL app needed); install **Shopify Flow**; an AI
+in-session Function activation); install **Shopify Flow**; an AI
 assistant with the Dev MCP + AI Toolkit. `pnpm install` is an **in-session** step (like the other
 workshops); the store structure is scripted; the **data model is created by the app**
 (`shopify app dev`), not pre-work.
@@ -204,8 +204,7 @@ re-fulfillment double-charges.)
 
 ### 2d. Plus payment-terms Function (~7 min)  [Plus]: the payoff
 **Step.** Build and deploy the Function from `prompts/05-plus-payment-terms-function.md`, then
-activate it via `payment-customization-activation.md` (`pnpm run activate`, or ask the AI assistant,
-no GraphiQL app).
+activate it via `payment-customization-activation.md` (`pnpm run activate`, or ask the AI assistant).
 **Teach.** This is the Plus payoff: on the combined location, a mixed cart flips **only that
 checkout** from Net 30 to due-on-fulfillment (`paymentTermsSet`, Plus-only) and hides the deferred
 option, so the buyer gets one smart cart. Two firsthand gotchas: (1) match the deferred method by

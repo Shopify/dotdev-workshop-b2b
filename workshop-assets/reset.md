@@ -10,7 +10,7 @@ that, re-run `setup/setup-store.mjs` (see `setup/README.md`).
 
 Most steps are in the **Shopify admin**. The one exception is the payment customization, which has no
 Admin UI, so it's a GraphQL mutation run with the **Shopify CLI** (`shopify store execute`; you already
-authed with `read_payment_customizations` + `write_payment_customizations`). No GraphiQL app needed.
+authed with `read_payment_customizations` + `write_payment_customizations`).
 
 ---
 
