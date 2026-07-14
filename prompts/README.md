@@ -14,10 +14,11 @@ plus what you should see when it works. They are labelled:
 You build all of them on your dev store (dev stores include Plus features). The labels tell you
 which merchant plan a capability requires, so you can build for and advise merchants on each.
 
-Philosophy: AI is an accelerator, not the author. Use the prompt to generate the code, then
-read and understand what it produced. The `starter/` app ships the extensions as **stubs** you
-implement (see `../starter/b2b-prebooking-workshop/README.md`); a complete reference lives on the
-`finished` branch if you want to compare.
+Philosophy: these prompts are the **primary build path** for this workshop, not a take-home shortcut.
+You build live by prompting an AI assistant, then reading and understanding what it produced (AI is the
+accelerator, you're the author). The `starter/` app ships the extensions as **stubs** you implement
+(see `../starter/b2b-prebooking-workshop/README.md`); a complete reference lives on the `finished`
+branch if you want to compare.
 
 | Step | File | Scope | Session part |
 |---|---|---|---|
