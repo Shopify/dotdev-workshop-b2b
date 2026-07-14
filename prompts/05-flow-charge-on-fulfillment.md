@@ -1,7 +1,8 @@
-# 5. Flow: charge the vaulted card when payment is due  [both]
+# 5. Flow: charge the vaulted card on fulfillment  [both]
 
-Automatically charge the buyer's vaulted card / bank account when a B2B order's payment schedule
-reaches its due date, with a safety check that skips it if the payment was already collected. This is
+Automatically charge the buyer's vaulted card / bank account **on fulfillment**: it fires when a B2B
+order's payment schedule comes due, which for due-on-fulfillment terms is at fulfillment (and **per
+fulfillment** on Plus), with a safety check that skips it if the payment was already collected. This is
 **Part 4b** of the workshop. It's **independent of Flow 1**: it acts on the payment schedule, not the
 `Prebooking` tag, so it never waits on Flow 1's tagging. The same Flow serves both plans.
 

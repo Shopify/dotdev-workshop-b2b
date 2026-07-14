@@ -42,7 +42,7 @@ Gita's intro, don't spend dedicated clock on it.
 - **0:06** Part 1 data model (author the season, bulk-assign). → **by 0:10**
 - **0:10** Part 2 theme block: paste prompt, talk the 2 ideas while it builds, place, verify as Maya. → **by 0:16**
 - **0:16** Part 3 Function: paste prompt, talk the 2 ideas, press `g` + activate mutation, verify terms switch. → **by 0:22**
-- **0:22** Part 4 Flows: Flow 1 is pre-built (just show it), build **Flow 2** live (charge-when-due). Place the payoff order now. → **by 0:26**
+- **0:22** Part 4 Flows: Flow 1 is pre-built (just show it), build **Flow 2** live (charge on fulfillment). Place the payoff order now. → **by 0:26**
 - **0:26** Payoff: three carts, two auto-charges, then the tagged/filtered view. → **by 0:30**
 - **0:30** Non-Plus: two-location arrangement, what you lose (dynamic terms + per-fulfillment), force-vault via App Store app. → **by 0:36**
 - **0:36** Close + take-home (pattern map + finished branch). → **by 0:38**

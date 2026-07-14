@@ -299,7 +299,7 @@ pre-book orders. It's purely for visibility, the charge Flow below doesn't depen
 **Checkpoint:** a new B2B pre-book order gets the `Prebooking` tag; a DTC order with the same product
 does not. The tag is async (a couple of minutes), but nothing waits on it.
 
-### 4b. Charge when payment is due
+### 4b. Charge on fulfillment
 
 ```text
 Create a new Flow that charges the vaulted B2B payment method when a B2B order's payment

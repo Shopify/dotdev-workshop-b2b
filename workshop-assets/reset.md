@@ -40,7 +40,7 @@ Then re-activate with the `paymentCustomizationCreate` mutation from `payment-cu
 
 ### Flows (Part 4)
 Open the **Shopify Flow** app. Turn off (or delete) **Flow 1** (tag pre-book orders) and **Flow 2**
-(charge the vaulted card when payment is due). Rebuild from `prompts/04` / `prompts/05`.
+(charge the vaulted card on fulfillment). Rebuild from `prompts/04` / `prompts/05`.
 
 ### Theme block (Part 2)
 Online Store, Themes, **Customize**, open a pre-book product template, select the **B2B Pre-booking**

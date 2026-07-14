@@ -210,7 +210,7 @@ managing these orders and payments." **Flow 1 is already built on your store (pr
 - **Say:** "B2B-guarded so DTC stays untagged. The `Prebooking` tag is the merchant's filter for pre-book orders. The charge Flow doesn't depend on it, it runs off the payment schedule."
 - The tag is async (2-3 min) but nothing waits on it. Attendees can build Flow 1 themselves from prompt `04`.
 
-### 4b. Charge when payment is due (~4 min, build live) - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
+### 4b. Charge on fulfillment (~4 min, build live) - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
 - Build **Flow 2** with the Sidekick prompt in [`prompts/05`](../prompts/05-flow-charge-on-fulfillment.md).
 - **Say:** "Charges the vaulted method when a B2B order's payment schedule is due, with a safety check that skips any schedule already collected, `completedAt does not exist`, so no double-charge. Independent of Flow 1, it keys off the schedule, not the tag."
 - **Verify:** fulfilling a pre-book order charges the vaulted method once (you'll show this in the payoff).
