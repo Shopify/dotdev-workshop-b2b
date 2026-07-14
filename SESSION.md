@@ -328,12 +328,19 @@ Your seeded store already has both locations, so you can see the split.
 
 ## Quick recovery
 
+**Golden rule:** if a step's code is broken and the fix isn't obvious in a minute, drop in the finished
+version and keep moving. The `finished` branch has every file completed, so from
+`starter/b2b-prebooking-workshop` you can run `git checkout finished -- <path>` and `dev` hot-reloads it.
+
 | Problem | Fix |
 |---|---|
 | `dev` stopped (`AbortError`), or the block suddenly renders **unstyled** (CSS 404), often right after a build step | Work down this ladder: **1)** restart `pnpm run dev` + hard-refresh the storefront; **2)** if the preview is stuck (`app-preview` errors, edits not landing): `shopify app dev clean` then `pnpm run dev`; **3)** if it says **"CLI credentials are invalid"**: `shopify auth logout` → `shopify auth login`, then `pnpm run dev`. |
+| **Theme block** is broken / won't style / no properties on the cart, and you're stuck | `git checkout finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid`, save; re-add the block in the theme editor if needed. |
+| **Payment Function** behaves wrong, and you're stuck | `git checkout finished -- extensions/prebooking-payment-terms/src/*`, then re-activate via press-`g`. |
 | Red `TranslationKeyExists` lines in the terminal | Ignore them (theme-check false positive); the prompt uses literal strings to avoid this |
 | GraphiQL says "Could not find Function" | `dev` must be running; press `g` again |
 | Activation says `ACCESS_DENIED` / needs `write_payment_customizations` | Run `pnpm run set-scopes` in `starter/b2b-prebooking-workshop`, re-approve the install in the browser, then re-run the mutation. More: [`payment-customization-activation.md`](workshop-assets/payment-customization-activation.md) |
+| **Flow** (4a/4b) built wrong by Sidekick | Import the ready-made `.flow` files from [`workshop-assets/flow/`](workshop-assets/flow/) instead. |
 | Want to start a part over | [`reset.md`](workshop-assets/reset.md) |
 
 ---

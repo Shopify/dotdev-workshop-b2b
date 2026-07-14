@@ -243,6 +243,28 @@ Close + take-home (pattern map + `finished` branch) per the delivery guide. Q&A 
 
 ---
 
+## If a step breaks: recover fast (don't debug live)
+
+**Rule:** give a broken step ~60-90 seconds. If it's not obvious, **drop in the `finished` version and move
+on**, never debug AI output on the projector. The `finished` branch (`origin/finished`) is a full mirror
+with both extensions completed, so `git checkout finished -- <path>` swaps in the known-good file and `dev`
+hot-reloads it. Run these from `starter/b2b-prebooking-workshop`.
+
+| Step | Symptom | Recover |
+|---|---|---|
+| **1. App setup** | `dev` won't start / scope error / `write_products` | `pnpm run set-scopes` -> re-approve the browser install -> `pnpm run dev` |
+| **1. Data model / seed** | metaobject, metafield, products, or company missing | Can't fix live (seed is ~2-4 min); the attendee follows on your screen and rebuilds from the seed after. Verify it's really missing in Settings > Custom data first. |
+| **2. Theme block** | broken, washed-out, or no line item properties on the cart | `git checkout finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid` (CSS is inline in that one file), save; `dev` reloads. Re-add the block in the theme editor if needed. |
+| **2/3. CSS drops / `dev` crash** | block suddenly unstyled, `AbortError`, `app-preview` errors | Ladder: restart `pnpm run dev` + hard-refresh -> `shopify app dev clean` then `pnpm run dev` -> if "CLI credentials are invalid": `shopify auth logout` / `shopify auth login` then `pnpm run dev`. |
+| **3. Payment Function** | wrong behavior at checkout | `git checkout finished -- extensions/prebooking-payment-terms/src/*`, then re-activate via press-`g`. |
+| **3. Activation** | `ACCESS_DENIED` / `write_payment_customizations` | `pnpm run set-scopes` -> re-approve install -> re-run the `paymentCustomizationCreate` mutation. |
+| **4a/4b. Flows** | Sidekick builds the wrong thing | Import the ready-made `.flow` files from `workshop-assets/flow/` instead of iterating the prompt live. |
+
+If you've fallen far behind on code, you can reset the whole app to the completed solution with
+`git checkout finished -- extensions/` and keep going from wherever the room is.
+
+---
+
 ## Appendix: command glossary (what each one does)
 
 Two tools: **pnpm** (installs code libraries, runs shortcut scripts) and the **Shopify CLI** (`shopify`,
