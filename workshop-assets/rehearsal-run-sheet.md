@@ -26,7 +26,7 @@ Everything ladders to that one sentence. If a tangent doesn't serve it, cut it.
 | **You** | Build Part 1 data model (author season + assign) | 4 min |
 | **You** | Build Part 2 theme block (prompt + place + verify) | 6 min |
 | **You** | Build Part 3 payment Function (prompt + activate + verify) | 6 min |
-| **You** | Build Part 4 Flows (4a tag + 4b charge) | 6 min |
+| **You** | Part 4 Flows (Flow 1 pre-built; build Flow 2 live) | 4 min |
 | **You** | Payoff (full lifecycle on Combined) | 4 min |
 | **You** | Non-Plus adaptation (talk/show) | 6 min |
 | **You** | Close + take-home | 2 min |
@@ -42,14 +42,14 @@ Gita's intro, don't spend dedicated clock on it.
 - **0:06** Part 1 data model (author the season, bulk-assign). → **by 0:10**
 - **0:10** Part 2 theme block: paste prompt, talk the 2 ideas while it builds, place, verify as Maya. → **by 0:16**
 - **0:16** Part 3 Function: paste prompt, talk the 2 ideas, press `g` + activate mutation, verify terms switch. → **by 0:22**
-- **0:22** Part 4 Flows: 4a tag prompt, 4b charge prompt (place the payoff order NOW so the tag lands while you talk). → **by 0:28**
-- **0:28** Payoff: three carts, the tagged order, two auto-charges. → **by 0:32**
-- **0:32** Non-Plus: two-location arrangement, what you lose (dynamic terms + per-fulfillment), force-vault via App Store app. → **by 0:38**
-- **0:38** Close + take-home (pattern map + finished branch). → **by 0:40**
-- **0:40** hand to Q&A.
+- **0:22** Part 4 Flows: Flow 1 is pre-built (just show it), build **Flow 2** live (charge-when-due). Place the payoff order now. → **by 0:26**
+- **0:26** Payoff: three carts, two auto-charges, then the tagged/filtered view. → **by 0:30**
+- **0:30** Non-Plus: two-location arrangement, what you lose (dynamic terms + per-fulfillment), force-vault via App Store app. → **by 0:36**
+- **0:36** Close + take-home (pattern map + finished branch). → **by 0:38**
+- **0:38** hand to Q&A (a couple minutes of buffer).
 
 **Checkpoints to say out loud while rehearsing:** "block placed by 16," "Function activated by 22,"
-"payoff order placed by 22 so the tag is ready by 30." If you're past a checkpoint, trigger a cut rule.
+"payoff order placed by 26." Fulfill whenever, Flow 2 doesn't wait on the tag. If you're past a checkpoint, trigger a cut rule.
 
 ## Transitions (the bridges, memorize these one-liners)
 

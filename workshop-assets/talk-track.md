@@ -148,38 +148,41 @@ Available-now-only cart stays on Net 30 with pay-later available. That's the che
 
 [Bridge:] Right checkout. Now let's make the merchant's life easy, tag and charge these automatically."
 
-## Part 4: Flows (~6 min)
+## Part 4: Flows (~4-5 min)
 
 [Admin, Shopify Flow, Sidekick.]
 
-"Two Flows so the store owner never touches this by hand. [Build 4a with the Sidekick prompt.] The first
-tags any B2B order with a pre-book item as Prebooking. The B2B condition keeps regular orders untagged,
-and that tag is both the merchant's filter and the signal the next Flow uses.
+"Two Flows so the store owner never touches this by hand. The first one I built ahead of time, so let me
+just show it. [Show Flow 1.] It tags any B2B order that has a pre-book item as Prebooking. The B2B
+condition keeps regular orders untagged. That tag is purely so the merchant can filter their orders to
+the pre-book ones, the charge Flow doesn't depend on it. You'd build this from the prompt; I pre-built
+mine to save time.
 
-[Important pacing:] The tag can take a couple of minutes, so I'm going to place my payoff order right now
-and let it work while I build the second Flow. [Place a mixed order on Combined.]
+[Build Flow 2 with the Sidekick prompt.] This second one I'll build live. It charges the vaulted card
+when a B2B order's payment schedule comes due, which for due-on-fulfillment is when you fulfill. And
+there's a safety check: it skips any schedule that's already been paid, so it never double-charges.
+Notice it keys off the payment schedule, not the tag, so it doesn't wait on the first Flow at all.
 
-[Build 4b with the Sidekick prompt.] The second Flow charges the vaulted card when the payment comes due.
-It fires when the schedule is due, which for due-on-fulfillment is when you fulfill, and there's a guard
-so it never double-charges. One Flow serves both plans, the difference in behavior comes from how each
-plan generates payment schedules, not from anything we write.
+[Place the payoff order now.] I'll place my mixed order now so we can fulfill it in a second.
 
 [Bridge:] Let's watch the whole thing run end to end."
 
 ## Payoff: the full lifecycle (~4 min)
 
-[On Combined, as Maya. Order from Part 4 should be tagged by now.]
+[On Combined, as Maya.]
 
 "Three carts, three behaviors [show quickly]: available-now is Net 30 with pay-later; pre-book only and
 mixed are both due on fulfillment with no pay-later, and the season shows on the line.
 
-[The placed order.] The order I placed a couple minutes ago is now tagged Prebooking, so the merchant
-can filter their orders to just the pre-book book. [Show the filtered Orders list.]
+[Fulfill.] Here's the payoff. I fulfill the in-stock line, and the vaulted card is charged automatically
+for that shipment. Then I fulfill the pre-book line, and it charges again, on its own. Two automatic
+charges, one per shipment, and nobody ever touched the card. No waiting on anything.
 
-[Fulfill.] Now the payoff. I fulfill the in-stock line, and the vaulted card is charged automatically
-for that shipment. Later I fulfill the pre-book line, and it charges again, on its own. Two automatic
-charges, one per shipment, and nobody ever touched the card. That's per-fulfillment charging, plus
-due-on-fulfillment terms, plus the Function, plus the Flow, all working together on one Plus order.
+[Show the filter.] And the order's also tagged Prebooking, so the merchant can filter their orders to
+just the pre-book ones. [Show the filtered Orders list.]
+
+That's per-fulfillment charging, plus due-on-fulfillment terms, plus the Function, plus the Flow, all
+working together on one Plus order.
 
 [Bridge:] That's the Plus experience. Most B2B merchants aren't on Plus, so here's the same outcome one
 tier down."

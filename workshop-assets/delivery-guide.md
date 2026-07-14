@@ -250,22 +250,24 @@ available-now-only carts, because the Function runs on every checkout.
 **Checkpoint.** ✅ Mixed cart on the combined location flips to due-on-fulfillment and hides
 deferred; available-now-only cart stays Net 30. (The Flows you build next do the charging.)
 
-### Flows (~8 min)  [both]: merchant ops after the buyer-facing build
-**Frame.** Theme block = buyer sees pre-book context; Function = right checkout. Now two Flows so the
-merchant can manage these orders and payments without manual tagging or charging. Same part, two
-Sidekick prompts.
+### Flows (~4-5 min live)  [both]: merchant ops after the buyer-facing build
+**Frame.** Theme block = buyer sees pre-book context; Function = right checkout. Now the Flows so the
+merchant can manage these orders and payments without manual tagging or charging.
 
-**Sub-step 4a, tag (~4 min).** Build Flow 1 from `prompts/04-flow-tag-prebook-orders.md` (Sidekick).
-**Teach.** Iterate the Sidekick prompt and read what it generates. The B2B guard keeps DTC orders
-untagged; the `Prebooking` tag is both a merchant filter and the signal the charge Flow keys on.
-**Checkpoint.** ✅ A new B2B order with a pre-order product gets the `Prebooking` tag; a DTC order
-does not.
+**Time-saver:** arrive with **Flow 1 already built on your demo store** (it's just a merchant-visibility
+helper and its tag is async, so building it live wastes minutes). You build **Flow 2 live**. Attendees
+can still build both from the prompts, the SESSION doc keeps Flow 1.
 
-**Sub-step 4b, charge (~4 min).** Build Flow 2 from `prompts/05-flow-charge-on-fulfillment.md` (Sidekick).
-**Teach.** One Flow serves both plans: non-Plus charges once at full fulfillment, Plus charges per
-fulfillment, driven by how each plan generates payment schedules, not by anything you author. The
-`completedAt does not exist` condition is your double-charge guard. (Hard-won: without it, a
-re-fulfillment double-charges.)
+**Sub-step 4a, tag (pre-built, ~30 sec to show).** Flow 1 (`prompts/04`) tags B2B pre-book orders
+`Prebooking`. **Teach.** The B2B guard keeps DTC orders untagged; the tag is a merchant filter for
+pre-book orders. It's purely for visibility, the charge Flow does not depend on it.
+
+**Sub-step 4b, charge (~4 min, build live).** Build Flow 2 from `prompts/05-flow-charge-on-fulfillment.md`
+(Sidekick). **Teach.** It charges the vaulted method when a B2B order's payment schedule comes due, with
+a safety check that skips any schedule already collected (`completedAt does not exist`, so a
+re-fulfillment can't double-charge). It's **independent of Flow 1**, it keys off the schedule, not the
+tag, so nothing waits on the tag. One Flow, both plans: non-Plus once at full fulfillment, Plus per
+fulfillment, driven by how each plan generates payment schedules.
 **Checkpoint.** ✅ Fulfilling a pre-order order charges the vaulted method for the due amount, once.
 
 > 💡 Every sub-part carries a firsthand teach (line-item-properties as the all-plans hook, the
@@ -289,20 +291,17 @@ you go deeper, so the repeat is deliberate reinforcement.)
 **2. Place the mixed order.** If the buyer doesn't check "save card," they're **prompted to add a
 card**: the order carries terms, so a vaulted method is required. Place it.
 
-> ⏱ **Flow is async, place the order first and let it work while you talk.** Flow 1 can take
-> **2-3 minutes** to apply the `Prebooking` tag, and Flow 2 keys off that tag, so **don't fulfill
-> until the tag has landed** or Flow 2 skips the charge and it looks broken on the projector. Pacing:
-> place this order at the *start* of the payoff, narrate steps 1 and 3 (three carts, the Orders
-> filter) while the tag lands, then fulfill in step 4. If you must show it fast, place a throwaway
-> pre-order order during the non-Plus segment so it's already tagged when you circle back.
+> ⏱ **No tag wait anymore.** Flow 2 charges off the payment schedule, not the `Prebooking` tag, so you
+> can fulfill immediately, nothing to wait on. Flow 1's tag (for the filtered Orders view) is async and
+> can take a couple of minutes, but it doesn't gate the charge, show the filter whenever the tag lands.
 
-**3. It's tagged and filterable.** Flow 1 auto-tags the order `Prebooking`. Show the Orders list
-**filtered by the `Prebooking` tag**, the merchant's clean pre-order view.
-
-**4. Two fulfillments, two automatic charges** (the payoff):
+**3. Two fulfillments, two automatic charges** (the payoff):
 - Fulfil the **available-now** line → Flow 2 charges the vaulted card for **that** fulfillment.
 - Later, fulfil the **pre-order** line → Flow 2 charges the vaulted card **again**, for that
-  fulfillment.
+  fulfillment. No waiting on any tag.
+
+**4. It's tagged and filterable too.** Flow 1 auto-tags the order `Prebooking`, so show the Orders list
+**filtered by the `Prebooking` tag**, the merchant's clean pre-order view (whenever the async tag lands).
 
 **Land it:** "Two automatic charges, one per fulfillment, and no one ever touched the card. That's
 per-fulfillment charging + due-on-fulfillment terms + the Function + the Flow, all working together

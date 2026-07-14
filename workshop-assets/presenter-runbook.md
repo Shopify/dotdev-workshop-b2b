@@ -36,8 +36,11 @@ broken. Build the Function first and every later test order already carries the 
       before any code. This is **not** the store you build on live, don't reset it. Have it logged in as
       Maya Cruz on Combined in a browser tab.
 - [ ] **Fresh build state (the store you build on live).** Wipe your build store back to the seeded
-      baseline first with [`reset.md`](reset.md) (delete the payment customization, both Flows, the
-      season entry + product metafields, the theme block, cancel/archive test orders).
+      baseline first with [`reset.md`](reset.md) (delete the payment customization, the season entry +
+      product metafields, the theme block, cancel/archive test orders).
+- [ ] **Flow 1 pre-built on your build store.** Leave Flow 1 (tag pre-book orders) built on the store you
+      demo on, so you don't spend live minutes on it. You build **Flow 2 live**. (Attendees can build both
+      from the prompts; the SESSION doc keeps Flow 1.)
 - [ ] **Storefront login ready.** You test as the B2B buyer **Maya Cruz** via the storefront (one-time
       emailed code), on the **Combined** location. Have that inbox open. Admin preview and DTC do NOT
       trigger the block or the B2B payment behavior.
@@ -197,33 +200,31 @@ mutation {
 
 ---
 
-## PART 4 - Flows (~8 min) [both] - prompts [`04`](../prompts/04-flow-tag-prebook-orders.md) + [`05`](../prompts/05-flow-charge-on-fulfillment.md)
+## PART 4 - Flows (~4-5 min live) [both] - prompts [`04`](../prompts/04-flow-tag-prebook-orders.md) + [`05`](../prompts/05-flow-charge-on-fulfillment.md)
 
 **Frame:** "We've given the buyer the PDP and the right checkout. Now we make the merchant's life easier
-managing these orders and payments, two Flows, one purpose."
+managing these orders and payments." **Flow 1 is already built on your store (pre-flight); you build Flow 2 live.**
 
-### 4a. Tag pre-book orders (~4 min) - prompt [`04`](../prompts/04-flow-tag-prebook-orders.md)
-- Build **Flow 1** with the Sidekick prompt in [`prompts/04`](../prompts/04-flow-tag-prebook-orders.md).
-- **Say:** "B2B-guarded so DTC orders stay untagged. The `Prebooking` tag is both the merchant's filter and the signal the charge Flow keys on."
-- **Verify:** a new B2B pre-book order gets `Prebooking`; a DTC order with the same product does not.
-- **Gotcha (timing):** Flow 1 is async, the tag can take **2-3 min**. Don't wait on stage; you'll verify during the payoff.
+### 4a. Tag pre-book orders (pre-built, show ~30s) - prompt [`04`](../prompts/04-flow-tag-prebook-orders.md)
+- Flow 1 is already on your store (built in pre-flight). Just show it, don't build live.
+- **Say:** "B2B-guarded so DTC stays untagged. The `Prebooking` tag is the merchant's filter for pre-book orders. The charge Flow doesn't depend on it, it runs off the payment schedule."
+- The tag is async (2-3 min) but nothing waits on it. Attendees can build Flow 1 themselves from prompt `04`.
 
-### 4b. Charge on fulfillment (~4 min) - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
+### 4b. Charge when payment is due (~4 min, build live) - prompt [`05`](../prompts/05-flow-charge-on-fulfillment.md)
 - Build **Flow 2** with the Sidekick prompt in [`prompts/05`](../prompts/05-flow-charge-on-fulfillment.md).
-- **Say:** "One Flow serves both plans, non-Plus charges once at full fulfillment, Plus per fulfillment, driven by how each plan makes payment schedules. `completedAt does not exist` is the double-charge guard."
+- **Say:** "Charges the vaulted method when a B2B order's payment schedule is due, with a safety check that skips any schedule already collected, `completedAt does not exist`, so no double-charge. Independent of Flow 1, it keys off the schedule, not the tag."
 - **Verify:** fulfilling a pre-book order charges the vaulted method once (you'll show this in the payoff).
 
 ---
 
 ## PAYOFF - full lifecycle (~4 min) - everything working together
 
-Run on the **Combined** location. **Pacing (Flow is async):** place the mixed order at the *start* of
-this section, narrate the rest while Flow 1's tag lands, then fulfill.
+Run on the **Combined** location. **No tag wait:** Flow 2 charges off the payment schedule, not the tag, so you fulfill immediately.
 
 1. **Three carts, three behaviors** (same buyer/location): available-now = Net 30 + pay-later; pre-book only = due on fulfillment, no pay-later; mixed = due on fulfillment, no pay-later (point out `Season` / `Delivery window` on the line).
 2. **Place the mixed order.** No "save card" checked -> buyer is prompted to add a card (order carries terms).
-3. **Tagged + filterable.** Flow 1 tags it `Prebooking`; show the Orders list filtered by that tag.
-4. **Two fulfillments, two auto-charges:** fulfil the available-now line -> Flow 2 charges the vaulted card for that fulfillment; later fulfil the pre-book line -> Flow 2 charges again.
+3. **Two fulfillments, two auto-charges:** fulfil the available-now line -> Flow 2 charges the vaulted card for that fulfillment; later fulfil the pre-book line -> Flow 2 charges again. No waiting on any tag.
+4. **Also tagged + filterable:** Flow 1 tags it `Prebooking` (async), show the Orders list filtered by that tag whenever the tag lands.
 - **Land it:** "Two automatic charges, one per fulfillment, no one touched the card. That's per-fulfillment charging + due-on-fulfillment terms + the Function + the Flow, together on one Plus order."
 
 ---

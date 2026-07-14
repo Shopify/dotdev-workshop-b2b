@@ -1,8 +1,9 @@
 # 4. Flow: tag pre-book B2B orders  [both]
 
-Tag every B2B order that contains a pre-book item so it can be filtered in Admin and so the
-charging Flow (Part 4b / prompt `05`) knows which orders to act on. Shopify Flow is available on
-all plans. This is **Part 4a** of the workshop (Flows = tag + charge).
+Tag every B2B order that contains a pre-book item so the store owner can filter their Orders list to
+just the pre-book orders. Shopify Flow is available on all plans. This is **Part 4a** of the workshop
+(Flows = tag + charge). The tag is purely for **merchant visibility**; the charge Flow in Part 4b runs
+off the payment schedule, not this tag, so the two Flows are independent.
 
 ## Prompt (copy into Sidekick)
 
@@ -15,7 +16,7 @@ and the order has a product tagged "prebook".
 ### While Sidekick builds: talk this through
 
 1. **B2B guard:** only tag when the order has a purchasing company, so DTC stays clean.
-2. **Product tag `prebook`:** detects pre-book lines; order tag **`Prebooking`** is what merchants filter on (and what Flow 2 keys on).
+2. **Product tag `prebook`:** detects pre-book lines; order tag **`Prebooking`** is what merchants filter on to see just their pre-book orders.
 
 ## What it builds
 

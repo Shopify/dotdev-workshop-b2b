@@ -293,24 +293,23 @@ and the order has a product tagged "prebook".
 ```
 
 The B2B condition keeps normal (DTC) orders untagged. The product tag `prebook` is what identifies a
-pre-book line; the order tag **`Prebooking`** is both a filter for the store owner and the signal the
-next Flow uses.
+pre-book line; the order tag **`Prebooking`** lets the store owner filter their Orders list to just the
+pre-book orders. It's purely for visibility, the charge Flow below doesn't depend on it.
 
 **Checkpoint:** a new B2B pre-book order gets the `Prebooking` tag; a DTC order with the same product
-does not. The tag can take **2-3 minutes** to appear, you'll confirm it in the run-through below.
+does not. The tag is async (a couple of minutes), but nothing waits on it.
 
-### 4b. Charge on fulfillment
+### 4b. Charge when payment is due
 
 ```text
-Create a new Flow to charge the vaulted B2B payment method on a B2B order when:
-1) the order has payment terms due on fulfillment,
-2) the order is tagged "Prebooking",
-3) the order due date has arrived.
+Create a new Flow that charges the vaulted B2B payment method when a B2B order's payment
+schedule reaches its due date, but only if that payment hasn't already been collected.
 ```
 
 The trigger fires when a payment schedule comes due (for due-on-fulfillment, that's when you fulfill).
-The `completedAt` check prevents a double charge. The same Flow works on both plans: non-Plus charges
-once at full fulfillment, Plus charges per fulfillment.
+The "already collected" safety check skips any schedule that's been paid, so it never double-charges. It
+acts on the **payment schedule, not the `Prebooking` tag**, so it's independent of Flow 1. Same Flow on
+both plans: non-Plus charges once at full fulfillment, Plus charges per fulfillment.
 
 **Checkpoint:** fulfilling a pre-book order charges the vaulted method once (you'll see this in the
 run-through below).
@@ -319,15 +318,16 @@ run-through below).
 
 ## See it all work together (on Combined)
 
-Flow 1's tag can take 2-3 minutes, so place the order first, then continue while it processes.
+Flow 2 charges off the payment schedule, not the tag, so you don't wait on Flow 1 here.
 
 1. Compare three carts: available-now = Net 30 with pay-later; pre-book only and mixed = due on
    fulfillment with no pay-later (and `Season` / `Delivery window` on the line).
 2. Place the **mixed** order. If you didn't save a card, you're prompted to vault one (the order carries
    terms).
-3. Once Flow 1 has run, the order is tagged **`Prebooking`**, filter the Orders list by that tag.
-4. Fulfil the available-now line → the vaulted card is charged for that fulfillment. Later fulfil the
-   pre-book line → it's charged again (Plus charges per fulfillment).
+3. Fulfil the available-now line → the vaulted card is charged for that fulfillment. Fulfil the
+   pre-book line → it's charged again (Plus charges per fulfillment). No waiting on any tag.
+4. The order is also tagged **`Prebooking`** by Flow 1, so the store owner can filter the Orders list to
+   just pre-book orders. That tag is async (a couple of minutes) and doesn't gate the charge.
 
 ---
 
