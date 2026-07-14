@@ -94,10 +94,15 @@ CLI auth, so it isn't in this list.)
 
 ## 5. Seed the store (before the session)
 
-Then run the seed script with your store and a buyer email:
+Move into the setup folder:
 
 ```bash
 cd workshop-assets/setup
+```
+
+Then run the seed script with your store and a buyer email:
+
+```bash
 STORE=<store>.myshopify.com BUYER_EMAIL=you+us@example.com node setup-store.mjs
 ```
 

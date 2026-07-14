@@ -111,21 +111,31 @@ Then the "why the obvious approaches fail" framing (~5 min) and the Toolkit slid
 
 ## PART 1 - Data model (~5 min) [both] - prompt [`01`](../prompts/01-scaffold-app.md)
 
-### 1a. App setup, one-time, three commands (tab 1)
+### 1a. App setup, one-time (tab 1). Run each command on its own:
+Move into the app folder:
 ```bash
 cd starter/b2b-prebooking-workshop
-pnpm install
-shopify app deploy         # creates the app: pick org, name it, release
-pnpm run set-scopes        # re-adds the payment scope + api_version, redeploys
-pnpm run dev               # approve the install (scope included), press g
 ```
-- **Why `set-scopes` (say it plainly):** "The CLI blanks the app's scopes when it first creates the app.
-  `set-scopes` puts them back and redeploys, so your first install already has the payment-customizations
-  permission and Part 3 just works." This is the fix for the create-time blank confirmed on stores 5-9.
-- On `deploy`: pick org -> create as new app -> name it -> **release**. `set-scopes` runs `deploy` again
-  (release again). On `dev`: pick store -> **approve the browser install** (consent lists payment
-  customizations) -> **storefront password** if asked -> mkcert **"Yes, use mkcert to generate it"** +
-  sudo/Mac password.
+Install dependencies:
+```bash
+pnpm install
+```
+Create the app (pick org, create as new app, name it, release):
+```bash
+shopify app deploy
+```
+Set the app's payment scope + api_version, then redeploy (release again):
+```bash
+pnpm run set-scopes
+```
+Start dev; approve the browser install, then press `g`:
+```bash
+pnpm run dev
+```
+- **Why `set-scopes` (say it plainly):** "This sets the payment-customizations scope the app needs and
+  redeploys, so your first install grants it and Part 3 activation works the first time."
+- On `dev`: pick store -> **approve the browser install** (consent lists payment customizations) ->
+  **storefront password** if asked -> mkcert **"Yes, use mkcert to generate it"** + sudo/Mac password.
 - **Say (frame the browser step):** "Installing an app with scopes goes through the standard consent
   screen, one click, not an error. There's no terminal-only install." Click Install, move on.
 - The season metaobject + `custom.b2b-prebooking` product metafield already exist store-owned (seeded in
@@ -281,8 +291,8 @@ one, prefer `pnpm shopify` so everyone's on the same version.
 |---|---|---|
 | `cd starter/b2b-prebooking-workshop` | Move into the app folder (shell). All commands run from here. | Once |
 | `pnpm install` | Downloads the app's code dependencies into `node_modules` (makes the CLI + build tools available). | Once per fresh clone |
-| `shopify app deploy` | Bundles app config + both extensions into a new **app version** and pushes it to Shopify. First run **creates** the app (and blanks the local scopes). Used twice in one-time app setup (create, then again inside `set-scopes`); not during the code build. | App setup |
-| `pnpm run set-scopes` | Repo helper: rewrites the blanked `access_scopes` back to `read/write_payment_customizations`, pins `api_version`, and redeploys, so the app is registered **with** the scope before you install. | App setup (after first deploy) |
+| `shopify app deploy` | Bundles app config + both extensions into a new **app version** and pushes it to Shopify. First run **creates** the app. Used twice in one-time app setup (create, then again inside `set-scopes`); not during the code build. | App setup |
+| `pnpm run set-scopes` | Repo helper: writes the app's `read/write_payment_customizations` scope into `shopify.app.toml`, pins `api_version`, and redeploys, so the app is registered **with** the scope before you install. | App setup (after first deploy) |
 | `pnpm run dev` | = `shopify app dev --use-localhost`. Starts the **local dev session**: builds + serves the extensions live, hot-reloads on save, opens GraphiQL on press `g`. Stays running in Tab 1. | All session |
 | `--use-localhost` | Serves `dev` over a local HTTPS proxy (the `mkcert` cert prompt) instead of a Cloudflare tunnel; avoids room-wide throttling. Applies **only** to `dev`, not `deploy`. | Inside the `dev` script |
 | press `g` (in the dev tab) | Keystroke, not a command. Opens **GraphiQL** (query console) scoped to your app; how we activate the payment Function in Part 3. | Part 3 |

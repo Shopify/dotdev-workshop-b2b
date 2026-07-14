@@ -60,7 +60,7 @@ Create your app. When prompted, pick your Partner org, choose **create it as a n
 shopify app deploy
 ```
 
-Re-add the payment-customizations permission the CLI blanks when it first creates the app, then redeploy (**release** again when prompted). This is why Part 3 activation works on the first try:
+Set the payment-customizations scope your app needs, then redeploy (**release** again when prompted). This is what makes Part 3 activation work the first time:
 
 ```bash
 pnpm run set-scopes

@@ -81,47 +81,78 @@ You're done with prework only when the **validation checklist at the end of
 
 ## Get ready
 
-**Before the session, seed your store.** Clone the repo, authenticate the CLI (step 1), then run the
-setup script (step 2). It provisions the whole B2B structure (products with images, collections + menu,
-company **Urban Style**, buyer **Maya Cruz**, all three locations, markets, catalogs, terms, DTC
-catalog). Advanced flags are documented at the top of `setup-store.mjs`.
+**Before the session, seed your store.** It provisions the whole B2B structure (products with images,
+collections + menu, company **Urban Style**, buyer **Maya Cruz**, all three locations, markets, catalogs,
+terms, DTC catalog, and the pre-booking data model). Run each command on its own. Advanced flags are
+documented at the top of `setup-store.mjs`.
+
+Clone the repo (from a folder you keep projects in, not inside another git repo):
 
 ```bash
-# from a folder you keep projects in (not inside another git repo)
 git clone <this-repo-url>
+```
 
-# 1) authenticate the CLI to your store (one time; edit only the store URL)
+Authenticate the CLI to your store (one time; edit only the store URL):
+
+```bash
 shopify store auth --store <your-store>.myshopify.com --scopes read_products,write_products,read_inventory,write_inventory,read_locations,read_publications,write_publications,read_customers,write_customers,read_markets,write_markets,read_payment_terms,read_metaobjects,write_metaobjects,read_metaobject_definitions,write_metaobject_definitions,read_online_store_navigation,write_online_store_navigation
+```
 
-# 2) seed the store
+Move into the setup folder:
+
+```bash
 cd <this-repo>/workshop-assets/setup
+```
+
+Seed the store (several minutes; it prints each step):
+
+```bash
 STORE=<your-store>.myshopify.com BUYER_EMAIL=you+us@example.com node setup-store.mjs
 ```
 
-The seed script also creates the pre-booking **data model** (the `b2b_prebooking` season metaobject
-and the `custom.b2b-prebooking` product metafield), **store-owned** so it's fully visible and editable
-in Admin. You author the season **values** in Part 1; the definitions are ready before the session.
+The seed also creates the pre-booking **data model** (the `b2b_prebooking` season metaobject and the
+`custom.b2b-prebooking` product metafield), **store-owned** so it's fully visible and editable in Admin.
+You author the season **values** in Part 1; the definitions are ready before the session.
 
-**In the session, set up the app** (one-time; tab 1 stays running afterward):
+**In the session, set up the app** (one-time; Tab 1 stays running afterward). Run each on its own.
+
+Move into the app folder:
 
 ```bash
 cd starter/b2b-prebooking-workshop
-pnpm install
-shopify app deploy         # creates your app in your Partner org (pick org, name it, release)
-pnpm run set-scopes        # re-adds the payment scope the CLI blanks on create, then redeploys
-pnpm run dev               # = shopify app dev --use-localhost; approve the install, press g for GraphiQL
 ```
 
-<sub>Using npm instead of pnpm? `npm install`, `shopify app deploy`, `npm run set-scopes`, `npm run dev`.</sub>
+Install dependencies:
 
-**Why `set-scopes`:** when the CLI first creates your app it blanks the `access_scopes` in
-`shopify.app.toml`. `set-scopes` restores them (`read/write_payment_customizations`), pins the
-`api_version`, and redeploys, so your **first** install already grants the payment-customizations
-permission and Part 3 activation works on the first try (no access-denied, no standalone GraphiQL app).
-Then `dev` links to that already-scoped app, so nothing re-blanks. Expect a **storefront password**
-prompt (Admin, Online Store, Preferences) and, on first `--use-localhost`, a **mkcert** prompt: select
-**"Yes, use mkcert to generate it"**, then enter your Mac/admin (sudo) password. Details and
-troubleshooting: [`prompts/01`](prompts/01-scaffold-app.md).
+```bash
+pnpm install
+```
+
+Create your app (pick your org, choose create it as a new app, name it, release the version):
+
+```bash
+shopify app deploy
+```
+
+Set the payment-customizations scope your app needs, then redeploy:
+
+```bash
+pnpm run set-scopes
+```
+
+Start the dev session (= `shopify app dev --use-localhost`); approve the install in your browser and press `g` here for GraphiQL:
+
+```bash
+pnpm run dev
+```
+
+<sub>Using npm instead of pnpm? `npm install`, `npm run set-scopes`, `npm run dev` (run `shopify app deploy` as-is).</sub>
+
+`set-scopes` writes your app's payment-customizations scope into `shopify.app.toml` and deploys it, so
+the install grants that permission and Part 3 activation works the first time. Expect a **storefront
+password** prompt (Admin, Online Store, Preferences) and, on the first `--use-localhost` run, a
+**mkcert** prompt: select **"Yes, use mkcert to generate it"**, then enter your Mac/admin (sudo)
+password. Details: [`prompts/01`](prompts/01-scaffold-app.md).
 
 ## Repo structure
 

@@ -7,26 +7,40 @@ anything, you install dependencies and start the dev session.
 
 ## Commands (one-time app setup)
 
+Run each on its own, top to bottom.
+
+Move into the app folder:
+
 ```bash
 cd starter/b2b-prebooking-workshop
-pnpm install
-shopify app deploy         # creates your app (pick org, name it, release the version)
-pnpm run set-scopes        # re-adds the payment scope the CLI blanks on create, then redeploys
-pnpm run dev               # = shopify app dev --use-localhost; approve the install, press g
 ```
 
-- **`shopify app deploy`** creates/links your app in your Partner org and writes `client_id` into
-  `shopify.app.toml`. Pick your org, name the app, and release the version.
-- **`pnpm run set-scopes`** is the one that matters. When the CLI creates the app it **blanks** the
-  `access_scopes` in your toml (a create-time CLI behavior, confirmed on fresh stores). `set-scopes`
-  restores them (`read/write_payment_customizations`), pins the `api_version`, and redeploys, so the app
-  is registered **with** the scope before you install. Without it, Part 3 activation fails with an
-  access-denied error.
-- **`pnpm run dev`** links to that already-scoped app (nothing re-blanks), serves both extensions, and
-  prompts the install. **Approve it in the browser** (the consent screen lists payment customizations)
-  and keep `dev` running, you build against it.
-- The season metaobject + product metafield already exist on your store, created store-owned by the
-  pre-work seed script, verify them below.
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Create your app in your Partner org (pick your org, choose **create it as a new app**, name it, release the version). This writes `client_id` into `shopify.app.toml`:
+
+```bash
+shopify app deploy
+```
+
+Set the app's payment-customizations scope and redeploy, so the install grants it and Part 3 activation works:
+
+```bash
+pnpm run set-scopes
+```
+
+Start the dev session (= `shopify app dev --use-localhost`), then **approve the install in the browser** (the consent screen lists payment customizations) and keep it running, you build against it. Press `g` for GraphiQL:
+
+```bash
+pnpm run dev
+```
+
+The season metaobject + product metafield already exist on your store, created store-owned by the
+pre-work seed script, verify them below.
 
 > **Why a browser step?** Installing an app that has access scopes goes through the merchant OAuth
 > consent screen, a one-click browser step by design, with **no terminal-only install** (the CLI's own
