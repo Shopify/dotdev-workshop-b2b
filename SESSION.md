@@ -38,31 +38,43 @@ No third tab. You don't run `shopify app deploy` during the build, `dev` rebuild
 
 ## Set up the app (Tab 1)
 
-A one-time setup: three commands that register your app **with** the payment-customizations permission
-*before* you install it, so activation in Part 3 works the first time.
+A one-time setup that registers your app **with** the payment-customizations permission *before* you
+install it, so activation in Part 3 works the first time. **Run these one at a time**, top to bottom,
+each is its own step (a couple are interactive, so don't paste them as a batch).
+
+Move into the app folder:
 
 ```bash
 cd starter/b2b-prebooking-workshop
-pnpm install
-shopify app deploy          # creates your app (pick org, name it, release the version)
-pnpm run set-scopes         # re-adds the permission the CLI blanks on create, then redeploys
-pnpm run dev                # approve the browser install (now includes the permission); press g for GraphiQL
 ```
 
-<sub>Using npm? `npm install`, `shopify app deploy`, `npm run set-scopes`, `npm run dev`.</sub>
+Install dependencies:
 
-**Why `set-scopes`:** when the CLI first creates your app it wipes the app's access scopes.
-`set-scopes` puts them back and redeploys, so your first install already grants the
-payment-customizations permission and you won't hit an access-denied error later.
+```bash
+pnpm install
+```
 
-What you'll be prompted for:
+Create your app. When prompted, pick your Partner org, choose **create it as a new app**, name it, and **release** the version:
 
-1. `shopify app deploy` → pick your Partner org → **create it as a new app** → name it → **release** the version.
-2. `pnpm run set-scopes` → it edits the config and runs `deploy` again → **release** the version.
-3. `pnpm run dev` → pick your store → **approve Install in the browser** (the consent screen lists
-   payment customizations) → enter your **storefront password** if asked (Admin → Online Store →
-   Preferences) → at the mkcert prompt choose **"Yes, use mkcert to generate it"** and enter your
-   Mac/sudo password (one-time per machine).
+```bash
+shopify app deploy
+```
+
+Re-add the payment-customizations permission the CLI blanks when it first creates the app, then redeploy (**release** again when prompted). This is why Part 3 activation works on the first try:
+
+```bash
+pnpm run set-scopes
+```
+
+Start the dev session. Pick your store and **approve the install in your browser** (the consent screen now lists payment customizations). Leave this running all session; press **`g`** here to open GraphiQL:
+
+```bash
+pnpm run dev
+```
+
+<sub>Using npm? `npm install`, `npm run set-scopes`, `npm run dev` (run `shopify app deploy` as-is).</sub>
+
+On the first `pnpm run dev` you may also be asked for your **storefront password** (Admin → Online Store → Preferences) and, for `--use-localhost`, a mkcert prompt: choose **"Yes, use mkcert to generate it"** and enter your Mac/sudo password (one-time per machine).
 
 Leave Tab 1 (`dev`) running for the rest of the session.
 
