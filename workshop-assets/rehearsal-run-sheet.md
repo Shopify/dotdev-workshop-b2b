@@ -33,7 +33,7 @@ Everything ladders to that one sentence. If a tangent doesn't serve it, cut it.
 | Both | Q&A | 10 min |
 
 Your hands-on window is **~40 min** (finished demo through close). Prework check (~3 min hands-up) overlaps
-Gita's intro, don't spend dedicated clock on it in the dry run.
+Gita's intro, don't spend dedicated clock on it.
 
 ## Running clock (your window; start your timer when you take over from Gita)
 
@@ -73,11 +73,11 @@ Gita's intro, don't spend dedicated clock on it in the dry run.
 
 - **Auto-accept edits ON** in your AI before you start (so builds don't stall on approvals).
 - **Two tabs only:** Tab 1 `shopify app dev --use-localhost` (running the whole time; press `g` here for GraphiQL), Tab 2 AI.
-- **Block goes unstyled / dev crash:** restart `shopify app dev --use-localhost` + hard-refresh → `shopify app dev clean` → `shopify auth logout`/`login`. (You hit this on store 9; know the ladder cold.)
+- **Block goes unstyled / dev crash:** restart `shopify app dev --use-localhost` + hard-refresh → `shopify app dev clean` → `shopify auth logout`/`login`. (Know this ladder cold; it's the most common live hiccup.)
 - **Activation `ACCESS_DENIED`:** `pnpm run set-scopes` → re-approve install → re-run. (Shouldn't happen if app setup was done right.)
 - Have the **finished demo store** in a browser tab already logged in as Maya on Combined, so the opening demo is instant and guaranteed.
 
-## What the execs are watching for (frame your rehearsal to these)
+## What makes this land (keep these front of mind)
 
 - **Is there one clear story?** Lead and end with the throughline sentence. Don't let it become a feature tour.
 - **The two "wow" moments land:** the finished demo up front (they see the destination) and the **two hands-off charges** in the payoff (the single most impressive minute).
@@ -85,7 +85,7 @@ Gita's intro, don't spend dedicated clock on it in the dry run.
 - **The non-Plus takeaway** (most merchants aren't on Plus) is delivered as value, not a footnote.
 - **Polish under pressure:** if something breaks, the finished-branch recovery makes you look prepared, not stuck.
 
-## Rehearsal method (before the exec run)
+## Rehearsal method
 
 1. **One full timed pass, solo, out loud, actually building** on a fresh seeded store. Note every spot you
    run long against the checkpoints above.
