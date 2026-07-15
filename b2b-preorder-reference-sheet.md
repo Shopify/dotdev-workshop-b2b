@@ -12,68 +12,14 @@ per-fulfillment billing.
 
 ## Ways to build for common requests
 
-### Let buyers pre-order now and bill each one only when their goods ship
-
-**On Plus**
-- **Strategy:** Assign a B2B catalog for the pre-sale window + Payment Customization Function + vaulted payment method + Flow.
-- **Execution:** At checkout, the Function reads the pre-order product metafield, sets Due on Fulfillment terms, and enforces card vaulting. Flow triggers the charge per fulfillment.
-
-**On non-Plus**
-- **Strategy:** Use a dedicated company location assigned to a market with the pre-order catalog + Payment Customization Function + vaulted payment method + Flow.
-- **Execution:** The buyer selects the pre-order company location to see the catalog; the Function (via a public app) applies Due on Fulfillment terms and enforces card vaulting. Flow charges the saved payment method once the entire order is fulfilled.
-- **Note:** Per-fulfillment billing is Plus-only.
-
-### Mix in-stock and next-season items in one order
-
-**On Plus**
-- **Strategy:** Unified checkout with order-level payment terms.
-- **Execution:** As above, the Payment Customization Function forces "Due on Fulfillment" for the whole order if a pre-order item exists and enforces card vaulting. Fulfill in-stock items immediately; Flow triggers the charge per fulfillment.
-- **Note:** Use draft orders to split into two orders, if desired.
-
-**On non-Plus**
-- **Strategy:** Keep in-stock orders and pre-orders separate unless a single payment is acceptable.
-- **Execution:** Use separate company locations for in-stock ordering and pre-ordering.
-
-### Pre-order the spring line while it stays hidden from the public (D2C), only during the window
-
-**On Plus**
-- **Strategy:** B2B catalog + publishing + season metaobject.
-- **Execution:** B2B catalog assigned to eligible company locations + product and variant publishing; exclude products from the D2C market. The storefront reads the season metaobject to toggle availability.
-
-**On non-Plus**
-- **Strategy:** B2B catalog + Markets + publishing.
-- **Execution:** Similar to Plus, but capped at 3 active B2B catalogs. Plan the seasonal architecture to remain within the catalog limit.
-
-### Set ship window per item (e.g., Feb vs. April)
-
-**On Plus**
-- **Strategy:** Line-item properties + Validation Function.
-- **Execution:** Assign "Season" via a line-item property at add-to-cart. A custom Cart and Checkout Validation Function enforces valid windows.
-
-**On non-Plus**
-- **Strategy:** Line-item properties + app.
-- **Execution:** Same logic as Plus. Use a public App Store validation app to enforce the delivery-window rules instead of a custom Function.
-
-### Pre-book beyond on-hand inventory
-
-**On Plus**
-- **Strategy:** Product metafields + inventory policy + order tagging with Flow + optional Validation Function.
-- **Execution:** Set policy to CONTINUE so the line sells past zero and demand keeps accruing, which is the signal you plan production from. Hold the availability date in a product metafield; the theme shows the expected ship date. Tag orders and write order metafields at checkout (`prebook`, `season`) to feed forecasting and allocation; Flow can apply the tags.
-- **Note:** To cap demand at a ceiling, add a custom Cart and Checkout Validation Function reading a cap metafield; to close the window once production is set, flip policy to DENY.
-
-**On non-Plus**
-- **Strategy:** Product metafields + inventory policy + public App Store validation app (if needed).
-- **Execution:** The native cap works the same here and on any plan: load on-hand plus expected incoming as the variant's available count, leave inventory policy on DENY, and Shopify stops sales there with no Function and no app. The theme reads the availability-date metafield to show the ship date.
-- **Note:** Custom Functions are Plus-only, so if you need a rule richer than a quantity (a per-order minimum, a mixed-cart block, or selling past zero with an enforced cap), use a public App Store validation app in place of the custom Function.
-
-### Continue selling sold-out items to B2B buyers only
-
-**On Plus**
-- **Strategy:** Inventory policy + audience split + optional Validation Function.
-- **Execution:** Set policy to CONTINUE per variant for the backorder. Audience split (B2B vs. D2C) via publishing or theme logic + a custom Cart and Checkout Validation Function reading an oversell-floor metafield, to enforce a backorder limit (optional).
-
-**On non-Plus**
-- Same as Plus, but the validation Function must be a public App Store app; custom apps are Plus-only.
+| Pre-order pattern | On Plus | On non-Plus |
+|---|---|---|
+| **Let buyers pre-order now and bill each one only when their goods ship.** | **Strategy:** Assign a B2B catalog for the pre-sale window + Payment Customization Function + vaulted payment method + Flow.<br><br>**Execution:** At checkout, the Function reads the pre-order product metafield, sets Due on Fulfillment terms, and enforces card vaulting. Flow triggers the charge per fulfillment. | **Strategy:** Use a dedicated company location assigned to a market with the pre-order catalog + Payment Customization Function + vaulted payment method + Flow.<br><br>**Execution:** The buyer selects the pre-order company location to see the catalog; the Function (via a public app) applies Due on Fulfillment terms and enforces card vaulting. Flow charges the saved payment method once the entire order is fulfilled.<br><br>**Note:** Per-fulfillment billing is Plus-only. |
+| **Mix in-stock and next-season items in one order.** | **Strategy:** Unified checkout with order-level payment terms.<br><br>**Execution:** As above, the Payment Customization Function forces "Due on Fulfillment" for the whole order if a pre-order item exists and enforces card vaulting. Fulfill in-stock items immediately; Flow triggers the charge per fulfillment.<br><br>**Note:** Use draft orders to split into two orders, if desired. | **Strategy:** Keep in-stock orders and pre-orders separate unless a single payment is acceptable.<br><br>**Execution:** Use separate company locations for in-stock ordering and pre-ordering. |
+| **Pre-order the spring line while it stays hidden from the public (D2C), only during the window.** | **Strategy:** B2B catalog + publishing + season metaobject.<br><br>**Execution:** B2B catalog assigned to eligible company locations + product and variant publishing; exclude products from the D2C market. The storefront reads the season metaobject to toggle availability. | **Strategy:** B2B catalog + Markets + publishing.<br><br>**Execution:** Similar to Plus, but capped at 3 active B2B catalogs. Plan the seasonal architecture to remain within the catalog limit. |
+| **Set ship window per item (e.g., Feb vs. April).** | **Strategy:** Line-item properties + Validation Function.<br><br>**Execution:** Assign "Season" via a line-item property at add-to-cart. A custom Cart and Checkout Validation Function enforces valid windows. | **Strategy:** Line-item properties + app.<br><br>**Execution:** Same logic as Plus. Use a public App Store validation app to enforce the delivery-window rules instead of a custom Function. |
+| **Pre-book beyond on-hand inventory.** | **Strategy:** Product metafields + inventory policy + order tagging with Flow + optional Validation Function.<br><br>**Execution:** Set policy to CONTINUE so the line sells past zero and demand keeps accruing, which is the signal you plan production from. Hold the availability date in a product metafield; the theme shows the expected ship date. Tag orders and write order metafields at checkout (`prebook`, `season`) to feed forecasting and allocation; Flow can apply the tags.<br><br>**Note:** To cap demand at a ceiling, add a custom Cart and Checkout Validation Function reading a cap metafield; to close the window once production is set, flip policy to DENY. | **Strategy:** Product metafields + inventory policy + public App Store validation app (if needed).<br><br>**Execution:** The native cap works the same here and on any plan: load on-hand plus expected incoming as the variant's available count, leave inventory policy on DENY, and Shopify stops sales there with no Function and no app. The theme reads the availability-date metafield to show the ship date.<br><br>**Note:** Custom Functions are Plus-only, so if you need a rule richer than a quantity (a per-order minimum, a mixed-cart block, or selling past zero with an enforced cap), use a public App Store validation app in place of the custom Function. |
+| **Continue selling sold-out items to B2B buyers only.** | **Strategy:** Inventory policy + audience split + optional Validation Function.<br><br>**Execution:** Set policy to CONTINUE per variant for the backorder. Audience split (B2B vs. D2C) via publishing or theme logic + a custom Cart and Checkout Validation Function reading an oversell-floor metafield, to enforce a backorder limit (optional). | Same as Plus, but the validation Function must be a public App Store app; custom apps are Plus-only. |
 
 ---
 
