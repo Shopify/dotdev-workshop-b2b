@@ -288,14 +288,29 @@ filtered-view nicety you can do if there's time or leave as a take-home.
 ### 4a. Charge on fulfillment (required)
 
 ```text
-Create a new Flow that charges the vaulted B2B payment method when a B2B order's payment
-schedule reaches its due date, but only if that payment hasn't already been collected.
+Shopify Flow: Charge vaulted B2B payment on due installment
+
+Trigger: Payment schedule due
+Condition: paymentSchedule.completedAt is nil (installment not yet collected)
+Action: Capture vaulted payment method, using paymentSchedule.id
+
+Do not use an order-level paid check. The condition must be installment-specific to avoid
+double-charging. Designed for pre-fulfillment B2B payment capture.
 ```
 
 The trigger fires when a payment schedule comes due (for due-on-fulfillment, that's when you fulfill).
-The "already collected" safety check skips any schedule that's been paid, so it never double-charges. It
-acts on the **payment schedule, not any tag**, so it stands on its own. Same Flow on both plans: non-Plus
-charges once at full fulfillment, Plus charges per fulfillment.
+The `completedAt is nil` check is **installment-specific**, it skips any schedule that's already been
+collected, so it never double-charges (an order-level "paid" check would over-charge on multi-installment
+orders). It acts on the **payment schedule, not any tag**, so it stands on its own. Same Flow on both
+plans: non-Plus charges once at full fulfillment, Plus charges per fulfillment.
+
+**Prefer not to build it live?** Import the ready-made workflow instead:
+[`workshop-assets/flow/flow-2-charge-on-fulfillment.flow`](workshop-assets/flow/flow-2-charge-on-fulfillment.flow)
+(Shopify Flow → **Import**). Built, it looks like this:
+
+<a href="workshop-assets/flow/images/charge-on-fulfillment-flow.png"><img src="workshop-assets/flow/images/charge-on-fulfillment-flow.png" alt="Charge vaulted B2B payment Flow: Payment schedule is due trigger, then a Payment schedule completed at does not exist condition, then a Charge vaulted payment for B2B order action" width="320"></a>
+
+<sub>Click to enlarge.</sub>
 
 **Checkpoint:** fulfilling a pre-book order charges the vaulted method once (you'll see this in the
 run-through below).
