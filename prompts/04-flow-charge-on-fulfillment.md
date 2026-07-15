@@ -17,7 +17,7 @@ Condition: paymentSchedule.completedAt is nil (installment not yet collected)
 Action: Capture vaulted payment method, using paymentSchedule.id
 
 Do not use an order-level paid check. The condition must be installment-specific to avoid
-double-charging. Designed for pre-fulfillment B2B payment capture.
+double-charging. Designed for per fulfillment B2B payment capture.
 ```
 
 ### While Sidekick builds: talk this through
