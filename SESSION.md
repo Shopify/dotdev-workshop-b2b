@@ -262,7 +262,7 @@ mutation {
 You should get back an `id` with empty `userErrors`. This mutation is the same for everyone (the
 `functionHandle` is fixed in the starter).
 
-### Verify, then place the order (as Maya Cruz on Combined)
+### Verify (as Maya Cruz on Combined)
 
 Refresh checkout:
 
@@ -272,17 +272,17 @@ Refresh checkout:
 | Available-now only | Net 30 | Visible |
 
 Because of the conditional logic, an available-now-only order is untouched. The terminal prints a line
-each time the Function runs. **Place the mixed order** (if you didn't save a card, you're prompted to
-vault one, the order carries terms).
+each time the Function runs. Don't place the order yet, you'll run one clean test order after the Flows
+are built.
 
 ---
 
 ## Part 3: Flows
 
-Now make the merchant's life easier with **Shopify Flow**. The order has arrived in Admin and can be
-partially fulfilled; we want the vaulted card **charged automatically** on fulfillment, which is why the
-Function forced a card on file. Build in **Admin → Shopify Flow** with Sidekick. **3a (charge on
-fulfillment) is required, build it first.** **3b (tag) is optional.**
+Now make the merchant's life easier with **Shopify Flow**: when a pre-book order is fulfilled, charge the
+vaulted card **automatically** (which is why the Function forced a card on file). Build these **before**
+you place a test order, so the automation is live when you fulfill. Build in **Admin → Shopify Flow** with
+Sidekick. **3a (charge on fulfillment) is required, build it first.** **3b (tag) is optional.**
 
 ### 3a. Charge on fulfillment (required)
 
@@ -311,11 +311,8 @@ plans: non-Plus charges once at full fulfillment, Plus charges per fulfillment.
 
 <sub>Click to enlarge.</sub>
 
-**See it work (the payoff).** Back on the order:
-
-1. **Partially fulfill** the available-now line → the vaulted card is **charged automatically** for that fulfillment.
-2. Maya sees the order update in her **customer account**.
-3. **Fully fulfill** the pre-book line → the card is **charged again** for that shipment. Two hands-off charges, one per fulfillment, no one touched the card.
+However you built it (Sidekick or import), preview, save, and **turn the workflow on**. You'll watch it
+fire when you fulfill the test order below.
 
 ### 3b. Tag pre-book orders (optional)
 
@@ -339,6 +336,26 @@ time.
 <sub>Click to enlarge.</sub>
 
 **Checkpoint:** a new B2B pre-book order gets the `Prebooking` tag; a DTC order with the same product does not. The tag is async (a couple of minutes) and nothing waits on it.
+
+---
+
+## Test the full order (as Maya Cruz)
+
+Everything is built. Run one clean end-to-end test order to see all three pieces work together, as the
+**B2B buyer, Maya Cruz**, on the **Combined** location.
+
+1. **Log in** to the storefront as Maya Cruz (one-time emailed code).
+2. Open a **pre-book** product page and confirm the **theme block** appears (the ordering and delivery windows).
+3. **Add it to the cart** (add an available-now item too, so it's a mixed order) and confirm the **line item attributes** (`Season`, `Delivery window`) appear in the cart and at checkout.
+4. At **checkout**, confirm the payment terms are now **due on fulfillment** and **"choose payment method at a later time" is hidden**.
+5. **Place the order** (if you didn't save a card, you're prompted to vault one, the order carries terms).
+6. In **Admin → Orders**, open the order you just placed.
+7. **Fulfill the available-now item(s).** Its payment schedule becomes due, and the charge Flow **charges the vaulted card automatically** for that fulfillment.
+8. On the **storefront as Maya**, view the order and confirm the **partial charge**.
+9. Back in **Admin**, **fulfill the pre-book item(s).** That schedule becomes due and the vaulted card is **charged automatically** again.
+10. On the **storefront as Maya** again, confirm the **full amount** has now been charged.
+
+**Checkpoint:** two hands-off charges, one per fulfillment, and nobody ever touched the card. (If you built the optional tag Flow, the order is also tagged `Prebooking` once the async tag lands.)
 
 ---
 
