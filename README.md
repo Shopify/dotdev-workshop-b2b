@@ -1,7 +1,7 @@
-# Building B2B Pre-booking on Shopify
+# Building B2B Pre-orders on Shopify
 
-A hands-on workshop for partners and developers: build B2B pre-order / pre-booking on today's Shopify
-capabilities, before selling plans are available for B2B. This repo is a **foundation to build from**,
+A hands-on workshop for partners and developers: build B2B pre-orders / pre-booking on today's Shopify
+capabilities. This repo is a **foundation to build from**,
 not a turnkey product: patterns, prompts, and a starter app you extend for your merchant.
 
 > **Format: AI-assisted ("vibe coding"), not hands-on coding.** You build by prompting an AI assistant
@@ -20,17 +20,17 @@ This README is the **overview**. The two working docs are:
 App developers, agencies, and technical partners who build or advise on B2B commerce for Shopify
 merchants. The build is AI-assisted, so you'll be comfortable if you can:
 
-- run commands in a terminal,
-- clone and edit a project from GitHub, and
-- follow basic Shopify Admin and B2B concepts.
+- run commands in a terminal
+- clone and edit a project from GitHub
+- follow basic Shopify Admin and B2B concepts
 
 ## Prerequisites
 
-Set all of this up **before the session**, it can't be done live. Full steps and a validation checklist
+Set all of this up **before the session**, it's much more difficult to do live. Full steps and a validation checklist
 are in **[`PREWORK.md`](PREWORK.md)**; give yourself lead time for Shopify Payments especially.
 
-- **US Shopify Plus sandbox** dev store, with **B2B** on
-- **Shopify Payments** in **test mode** (payment capture not at checkout)
+- **US Shopify Plus sandbox** dev store (B2B features will be included by default)
+- **Shopify Payments** in **test mode** (set payment capture to fulfillment or manual, not at checkout)
 - **Shopify Flow** installed
 - **Node.js 20+**, **pnpm** (or npm), and **Shopify CLI 4+**
 - An **AI coding assistant** with the **Shopify Dev MCP** and **AI Toolkit**
