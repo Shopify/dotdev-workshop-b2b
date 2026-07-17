@@ -369,6 +369,15 @@ time.
 Everything is built. Run one clean end-to-end test order to see all three pieces work together, as the
 **B2B buyer, Maya Cruz**, on the **Combined** location.
 
+**Test card** (Shopify Payments test mode), enter this when prompted to save a card at checkout:
+
+| Field | Value |
+|---|---|
+| Card number | `4111 1111 1111 1111` |
+| Expiration | any future date |
+| CVV | `111` |
+| Name | any name |
+
 1. **Log in** to the storefront as Maya Cruz (one-time emailed code).
 2. Open a **pre-book** product page and confirm the **theme block** appears (the ordering and delivery windows).
 3. **Add it to the cart** (add an available-now item too, so it's a mixed order) and confirm the **line item attributes** (`Season`, `Delivery window`) appear in the cart and at checkout.
