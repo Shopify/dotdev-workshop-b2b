@@ -373,9 +373,9 @@ Everything is built. Run one clean end-to-end test order to see all three pieces
 
 | Field | Value |
 |---|---|
-| Card number | `4111 1111 1111 1111` |
+| Card number | `4242 4242 4242 4242` |
 | Expiration | any future date |
-| CVV | `111` |
+| CVV | any 3 digits |
 | Name | any name |
 
 1. **Log in** to the storefront as Maya Cruz (one-time emailed code).
