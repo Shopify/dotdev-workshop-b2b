@@ -436,7 +436,7 @@ git checkout origin/finished -- extensions
 
 ### Start a part over
 
-Reset only touches what you built in the session, not the pre-seeded store structure:
+Reset only touches what you built in the session, not the pre-seeded store structure (to reset that, re-run the seed script `workshop-assets/setup/setup-store.mjs`; it's idempotent):
 
 - **Payment customization (Part 2):** no Admin UI, so in the app's GraphiQL (press `g`) run `query { paymentCustomizations(first: 20) { nodes { id title enabled } } }`, then `paymentCustomizationDelete(id: "…")`; re-activate with `paymentCustomizationCreate`.
 - **Season values (Part 1):** clear the **B2B Pre-booking** column in the bulk editor, then delete the season entry (Settings → Custom data → Metaobjects). The definition stays (store-owned).
