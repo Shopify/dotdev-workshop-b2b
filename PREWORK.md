@@ -1,9 +1,6 @@
 # Prework
 
-**All required, and most can't be done in the session.** This workshop has heavier setup than most (a
-US Plus sandbox with B2B, Shopify Payments in test mode, Shopify Flow, and a store seed script), and
-some steps have approval delays, Payments especially. Finish everything below **before you arrive**; in
-the room we only clone, install, and build. Give yourself a few days of lead time for Payments.
+**All required, and much harder to do in the session.** This workshop requires Shopify Payments for B2B card vaulting, as well as a few other items. Finish everything below **before you arrive**; in the room we only clone, install, and build.
 
 > **Format: this is an AI-assisted ("vibe coding") build, not a hands-on coding session.** You'll prompt
 > an AI assistant to write the code, not hand-write or debug it, so no prior coding experience is needed.
@@ -23,12 +20,11 @@ the room we only clone, install, and build. Give yourself a few days of lead tim
     right after creating the store: **Settings, General, Store details**, set country/region to
     **United States** and currency to **USD**, and add a US **Address**. Keeps it consistent with the
     materials: USD pricing, US address, and the US SSN for Payments.
-  - **B2B is on automatically**, just verify in **Settings, B2B**. You don't set up the company, buyer,
-    locations, or products by hand, the seed script does that.
+  - **B2B is on automatically**, just verify by looking at **Customers, Companies**. You don't set up the company, buyer, locations, or products by hand, the seed script does that.
 - **Node.js 20+** and **pnpm** (recommended) or **npm**. Node also runs the seed script. These docs
   show `pnpm` commands; if you use npm, swap `pnpm` for `npm` (e.g. `npm install`, `npm run set-scopes`); the `shopify` CLI commands are the same either way.
 - **Shopify CLI 4+** (`shopify version`; upgrade with `pnpm add -g @shopify/cli@latest`).
-- **Shopify Flow** installed (free, [App Store listing](https://apps.shopify.com/flow)). You build the
+- **Shopify Flow** installed (free, [App Store listing](https://apps.shopify.com/flow)). You build one of the
   two workflows in-session.
 - **An AI coding assistant** (Claude Code, Codex, Cursor, VS Code, Antigravity CLI, or Hermes) with
   **both** of these:
@@ -40,7 +36,7 @@ the room we only clone, install, and build. Give yourself a few days of lead tim
   - Install links: [AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit),
     [Dev MCP](https://shopify.dev/docs/apps/build/devmcp).
 
-## 2. Shopify Payments (test mode)
+## 2. Shopify Payments in test mode
 
 Settings, Payments, **Activate Shopify Payments** (deactivate any test gateway first), then Manage,
 Test mode, **Enable test mode**. Use **Shopify Payments, not the Bogus Gateway**, B2B vaulted cards are
@@ -62,11 +58,10 @@ if you like, just not anyone else's real details; business type **Individual**):
 
 After submitting you'll see "some details couldn't be verified" and a "select a plan" banner. **Ignore
 both**, they only affect real payouts; test mode still works (cards charge, B2B cards vault). That
-verify notice is a **~30-day window**, so do Payments **close to the workshop date**, not weeks early.
+verify notice is a **~30-day window**.
 
 **Payment capture:** set it so payment is **not** taken at checkout (Settings, Payments, Payment
-capture). Either "when fully fulfilled" or "manually" works, just not "automatically at checkout" (that
-charges up front and defeats pay-on-fulfillment).
+capture). Either "when fully fulfilled" or "manually" works, just not "automatically at checkout".
 
 ## 3. Clone the repo (before the session)
 
@@ -77,7 +72,7 @@ git clone https://github.com/Shopify/dotdev-workshop-b2b.git
 ```
 
 `pnpm install` is an **in-session** step, not now (`cd starter/b2b-prebooking-workshop && pnpm install`,
-under a minute on venue wifi). Clone and install are safe to do live; the store setup below is not.
+under a minute on venue wifi).
 
 ## 4. Authenticate the Shopify CLI (before the session)
 
@@ -130,8 +125,7 @@ assign it to the pre-book products) in Part 1 of the session.
 You're ready only when **every** box is true. Verify each, don't assume:
 
 - [ ] **US Plus sandbox store exists** (Development store, Plus build, no test data, no feature
-      preview), **Settings, General** shows **United States / USD**, and **Settings, B2B** shows B2B
-      enabled.
+      preview), **Settings, General** shows **United States / USD**
 - [ ] **Node 20+** (`node --version`), **pnpm** or **npm** (`pnpm --version`), and **Shopify CLI 4+**
       (`shopify version`).
 - [ ] **Shopify Flow installed** (Admin, Apps lists "Shopify Flow").
@@ -156,8 +150,8 @@ shopify store execute --store <store>.myshopify.com --query 'query { shop { name
 ```
 
 Everything except **Payments** and the **store seed** is quick to fix in the room, so double-check those
-two hardest. If the seed box isn't fully true, re-run steps 4 and 5 (a couple of minutes; a TA can help
-at the door).
+two. If the seed items aren't all there, re-run steps 4 and 5 (a couple of minutes; a TA may be able to help
+in the session).
 
 ## Plan note
 
