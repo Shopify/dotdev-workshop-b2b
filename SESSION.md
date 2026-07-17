@@ -404,6 +404,8 @@ different use cases from merchants, so go build.
 **Golden rule:** if a step's code is broken and the fix isn't obvious in a minute, drop in the finished
 version and keep moving. The `finished` branch has every file completed, so from
 `starter/b2b-prebooking-workshop` you can run `git checkout finished -- <path>` and `dev` hot-reloads it.
+Prefer to paste rather than prompt? [`CODE.md`](CODE.md) has the finished theme block and Function as
+copy-paste (or paste-to-your-AI) blocks.
 
 **Watch the clock.** The theme block usually generates in ~3 min and the Function in ~2-3 min. If a build
 runs well past that, or the AI starts investigating the environment (sleep/polling loops, process checks,
