@@ -400,7 +400,7 @@ different use cases from merchants, so go build.
 
 **Golden rule:** if a step's code is broken and the fix isn't obvious in a minute, drop in the finished
 version and keep moving. The `finished` branch has every file completed, so from
-`starter/b2b-prebooking-workshop` you can run `git checkout finished -- <path>` and `dev` hot-reloads it.
+`starter/b2b-prebooking-workshop` you can run `git checkout origin/finished -- <path>` and `dev` hot-reloads it.
 Prefer to paste rather than prompt? [`CODE.md`](CODE.md) has the finished theme block and Function as
 copy-paste (or paste-to-your-AI) blocks.
 
@@ -410,16 +410,16 @@ waiting on `generated/api.ts`), stop it and drop in the finished file rather tha
 
 ```bash
 # theme block
-git checkout finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid
+git checkout origin/finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid
 # payment Function
-git checkout finished -- extensions/prebooking-payment-terms/src/*
+git checkout origin/finished -- extensions/prebooking-payment-terms/src/*
 ```
 
 | Problem | Fix |
 |---|---|
 | `dev` stopped (`AbortError`), or the block suddenly renders **unstyled** (CSS 404), often right after a build step | Work down this ladder: **1)** restart `shopify app dev --use-localhost` + hard-refresh the storefront; **2)** if the preview is stuck (`app-preview` errors, edits not landing): `shopify app dev clean` then `shopify app dev --use-localhost`; **3)** if it says **"CLI credentials are invalid"**: `shopify auth logout` → `shopify auth login`, then `shopify app dev --use-localhost`. |
-| **Theme block** is broken / won't style / no properties on the cart, and you're stuck | `git checkout finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid`, save; re-add the block in the theme editor if needed. |
-| **Payment Function** behaves wrong, and you're stuck | `git checkout finished -- extensions/prebooking-payment-terms/src/*`, then re-activate via press-`g`. |
+| **Theme block** is broken / won't style / no properties on the cart, and you're stuck | `git checkout origin/finished -- extensions/prebooking-theme/blocks/b2b-prebooking.liquid`, save; re-add the block in the theme editor if needed. |
+| **Payment Function** behaves wrong, and you're stuck | `git checkout origin/finished -- extensions/prebooking-payment-terms/src/*`, then re-activate via press-`g`. |
 | Red `TranslationKeyExists` lines in the terminal | Ignore them (theme-check false positive); the prompt uses literal strings to avoid this. |
 | GraphiQL says "Could not find Function" | `dev` must be running; press `g` again. |
 | Activation says `ACCESS_DENIED` / needs `write_payment_customizations` | Run `pnpm run set-scopes` in `starter/b2b-prebooking-workshop`, re-approve the install in the browser, then re-run the mutation. |

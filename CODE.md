@@ -13,7 +13,7 @@ Prefer not to prompt from scratch, or your build stalled? Each step below is **o
 copy the whole block for the step you need and paste it into your AI assistant (the same one you're
 building with). The prompt tells the AI exactly which file(s) to write, and `dev` hot-reloads on save.
 
-Even simpler if you know git: from `starter/b2b-prebooking-workshop`, `git checkout finished -- <path>`
+Even simpler if you know git: from `starter/b2b-prebooking-workshop`, `git checkout origin/finished -- <path>`
 drops in the same code in one command.
 
 After the theme block, place it on a pre-book product in the theme editor. After the Function, activate
