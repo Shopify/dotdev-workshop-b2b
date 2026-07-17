@@ -158,11 +158,11 @@ AND
 Part (2) is what makes it work on Horizon; part (1) covers classic themes.
 ```
 
-### While it builds: teach, and author the season in Admin
+### While it builds: review the goal, and author the season in Admin
 
 The block takes a couple of minutes to generate. Two things to do meanwhile.
 
-**Say what the block does (three ideas, no need to open files):**
+**What the block does:**
 
 1. **It runs conditionally:** only for a B2B buyer on a product that has a season (plus the theme editor). Everything else renders nothing.
 2. **It renders the custom-data values:** it reads the season from `product.metafields["custom"]["b2b-prebooking"]`, one line, nothing hardcoded, so it updates automatically when the season changes.
@@ -249,15 +249,15 @@ Match the deferred method by name. On B2B checkout the underlying name is "Defer
 (the label shown to buyers is "Choose payment method at a later time"). Keep the match configurable.
 ```
 
-### While it builds: teach, and cover Plus vs non-Plus
+### While it builds: review the goal, and think about Plus vs non-Plus
 
-**Say what the Function does (three ideas):**
+**What the Function does:**
 
 1. **It runs conditionally (fails open):** no changes unless the cart is B2B **and** contains a pre-book item. Every other checkout passes through untouched.
 2. **It hides the deferred option:** it hides the method named `"Deferred"` (the real input name, not the buyer-facing "Choose payment method at a later time"), so a card gets vaulted.
 3. **It changes the payment terms for this order:** it sets **due on fulfillment** (`paymentTermsSet`) for just this checkout.
 
-**Plus vs non-Plus (use the build time to explain the boundary).** Changing payment terms at checkout
+**Plus vs non-Plus.** Changing payment terms at checkout
 (`paymentTermsSet`) is **Plus-only**. That's why the non-Plus arrangement uses **two separate company
 locations**, one Available Now (Net 30) and one Pre-book (due on fulfillment), so each carries its own
 fixed terms instead of switching them mid-checkout. Hiding the deferred method is available to non-Plus
@@ -360,7 +360,7 @@ time.
 
 <sub>Click to enlarge.</sub>
 
-**Checkpoint:** a new B2B pre-book order gets the `Prebooking` tag; a DTC order with the same product does not. The tag is async (a couple of minutes) and nothing waits on it.
+**Checkpoint:** a new B2B pre-book order gets the `Prebooking` tag. The tag is async (a couple of minutes) and nothing waits on it.
 
 ---
 
