@@ -9,17 +9,17 @@ The Shopify app you extend in the B2B pre-booking workshop. It holds two extensi
   pre-book item is in the cart it switches payment terms to due-on-fulfillment and hides the
   deferred payment option.
 
-Build the pieces by following [`../../SESSION.md`](../../SESSION.md) and the matching `prompts/`.
+Build the pieces by following [`../../SESSION.md`](../../SESSION.md).
 
 ## What ships vs. what you build
 
 - **`extensions/prebooking-theme`** ships as a **stub**: `blocks/b2b-prebooking.liquid` has a
   comment/TODO and the block schema only (its CSS goes inline in a `<style>` block in that same file,
-  no separate `assets/` CSS). You implement the window display + line item properties in Part 1
-  (`../../prompts/02-theme-app-block.md`).
+  no separate `assets/` CSS). You implement the window display + line item properties in
+  [`SESSION.md`](../../SESSION.md) Part 1.
 - **`extensions/prebooking-payment-terms`** ships as a **stub**: `src/cart_payment_methods_transform_run.ts`
-  returns no operations. You implement the due-on-fulfillment + hide-deferred logic in Part 2
-  (`../../prompts/03-plus-payment-terms-function.md`).
+  returns no operations. You implement the due-on-fulfillment + hide-deferred logic in
+  [`SESSION.md`](../../SESSION.md) Part 2.
 
 The app config and both extension scaffolds ship complete; the business logic in those two source
 files is yours to build. The pre-booking data model (the season metaobject + `custom.b2b-prebooking`

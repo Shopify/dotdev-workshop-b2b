@@ -1,8 +1,8 @@
 # Working in this repo (AI build rules)
 
 This is an AI-assisted workshop build. When you implement the theme block or the payment Function from
-the prompts in `prompts/` (or `SESSION.md`), follow these rules so the build stays fast (a live workshop
-has a tight clock):
+the prompts in `SESSION.md`, follow these rules so the build stays fast (a live workshop has a tight
+clock):
 
 - **Edit-only.** `shopify app dev` is already running and rebuilds on save. Only edit files (the
   extension `blocks/` and `src/` files). Do NOT run `shopify app deploy`, `shopify app function build`,

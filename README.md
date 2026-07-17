@@ -110,7 +110,6 @@ values**, which is Part 1.
 ├── SESSION.md                       In-session follow-along (keep this open)
 ├── CODE.md                          Finished code as paste-in blocks (fallback to prompting)
 ├── b2b-preorder-reference-sheet.md  Take-home: pre-order patterns × Plus/non-Plus
-├── prompts/                         The paste prompts + deeper teach notes
 ├── starter/                         The Shopify app you extend (theme block + payment Function)
 │   └── b2b-prebooking-workshop/     see its README for app layout + what ships vs. what you build
 └── workshop-assets/

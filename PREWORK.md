@@ -123,8 +123,7 @@ flags (skip products, non-Plus only, custom company/address) are documented at t
 `setup-store.mjs`.
 
 The data model **definitions** are seeded here; you author the season **values** (create the season,
-assign it to the pre-book products) in Part 1 of the session. (Optional: `prompts/00-store-setup.md`
-walks the same setup via AI prompt if you'd rather watch it run.)
+assign it to the pre-book products) in Part 1 of the session.
 
 ## Prework checklist (validate before you arrive)
 

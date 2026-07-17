@@ -16,11 +16,8 @@ checkout), these Flows make the merchant's life easier managing orders and payme
 
 ## Building them (recommended)
 
-Build each Flow live with its Sidekick prompt. The prompts, triggers, conditions, actions,
-and teach notes are documented in the build walkthrough, which is the **single source of truth**:
-
-- Charge (Part 3a): [`../../prompts/04-flow-charge-on-fulfillment.md`](../../prompts/04-flow-charge-on-fulfillment.md)
-- Tag (Part 3b, optional): [`../../prompts/05-flow-tag-prebook-orders.md`](../../prompts/05-flow-tag-prebook-orders.md)
+Build each Flow live (Sidekick prompt, by hand, or import). The prompts, triggers, actions, and teach
+notes live in [`../../SESSION.md`](../../SESSION.md) Part 3, which is the **single source of truth**.
 
 ## Importing them (optional)
 

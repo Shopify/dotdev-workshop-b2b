@@ -443,9 +443,3 @@ Reset only touches what you built in the session, not the pre-seeded store struc
 - **Theme block (Part 1):** Online Store → Themes → Customize → select the **B2B Pre-booking** block → Remove block.
 - **Flows (Part 3):** open Shopify Flow, turn off or delete the workflow(s).
 - **Test orders:** Cancel (voids the authorization), then Archive.
-
----
-
-## More detail
-
-The same prompts with longer explanations live in [`prompts/`](prompts/).
