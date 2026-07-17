@@ -17,6 +17,15 @@ This README is the **overview**. The two working docs are:
 - **[`SESSION.md`](SESSION.md)**: the in-session follow-along: every command, prompt, and checkpoint in
   order. Open it and build.
 
+## Who this is for
+
+App developers, agencies, and technical partners who build or advise on B2B commerce for Shopify
+merchants. The build is AI-assisted, so you'll be comfortable if you can:
+
+- run commands in a terminal,
+- clone and edit a project from GitHub, and
+- follow basic Shopify Admin and B2B concepts.
+
 ## The problem
 
 B2B on Shopify doesn't support selling plans yet, so there's no native pre-order path. Apparel merchants
